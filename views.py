@@ -13,5 +13,5 @@ class DeployIndex(ListView):
 
 
 def get_jenkins_all(request):
-    print(collect_all_job())
+    collect_all_job()
     return JsonResponse(dict(code=200))
