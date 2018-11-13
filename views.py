@@ -4,6 +4,7 @@ from .models.deploy_list import DeployList
 from django.views.generic import ListView, DetailView
 from .pjenkins.exec_jenkins import collect_all_job
 # Create your views here.
+from .models.deploy_list import DeployList
 
 
 class DeployIndex(ListView):
@@ -13,5 +14,7 @@ class DeployIndex(ListView):
 
 
 def get_jenkins_all(request):
-    collect_all_job()
+    jobs = collect_all_job()
+    for job in jobs:
+        print(job)
     return JsonResponse(dict(code=200))
