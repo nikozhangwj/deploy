@@ -26,3 +26,8 @@
       {% endfor %}
       </tbody>
 {% endblock %}
+{% block custom_foot_js %}
+    jQuery(document).ready(function() {
+        console.log('test deploy')
+    };
+{% endblock %}
