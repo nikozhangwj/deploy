@@ -2,6 +2,7 @@ import jenkins
 
 
 class JenkinsWork(object):
+
     def __init__(self):
         self.username = 'admin'
         self.password = 'admin'
