@@ -28,12 +28,12 @@
 {% endblock %}
 {% block custom_foot_js %}
 <script>
+jQuery(document).ready(function() {
     $.('body').on('click', '#deploy-list', function(){
-        jQuery(document).ready(function() {
-            $.get("{% url 'api-deploy:get_jenkins_all' %}",{},function(){
-                console.log('test deploy')
-            });
+        $.get("{% url 'api-deploy:get_jenkins_all' %}",{},function(){
+            console.log('test deploy')
         });
     });
+});
 </script>
 {% endblock %}
