@@ -4,7 +4,6 @@ from .. import views
 
 app_name = 'deploy'
 
-
 urlpatterns = [
-    path('', views.DeployIndex.as_view(), name='deploy_list'),
+    path('get_jenkins_all/', views.get_jenkins_all, name='get_jenkins_all'),
 ]
