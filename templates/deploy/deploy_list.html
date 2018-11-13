@@ -1,10 +1,8 @@
-{% extends 'base.html' %}
+{% extends '_base_list.html' %}
 {% load i18n %}
 {% load static %}
 
-{% block content %}
-<div class="table-responsive">
-    <table id="Table_deploy" class="table table-bordered">
+{% block table_head %}
       <thead>
         <tr>
             <th>最后一次构建时间</th>
@@ -14,7 +12,8 @@
             <th>操作</th>
         </tr>
       </thead>
-
+{% endblock %}
+{% block table_body %}
       <tbody>
       {% for deploy in deploys %}
         <tr>
@@ -26,46 +25,4 @@
         </tr>
       {% endfor %}
       </tbody>
-
-    </table>
-</div>
-{% endblock %}
-
-{% block custom_foot_js %}
-<!--datatable表格-->
-    $('#Table_deploy').DataTable({
-          "language": {
-              "processing": "处理中...",
-              "lengthMenu": "显示 _MENU_ 项结果",
-              "zeroRecords": "没有匹配结果",
-              "info": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
-              "infoEmpty": "显示第 0 至 0 项结果，共 0 项",
-              "infoFiltered": "(由 _MAX_ 项结果过滤)",
-              "infoPostFix": "",
-              "search": "搜索:",
-              "searchPlaceholder": "搜索...",
-              "url": "",
-              "emptyTable": "表中数据为空",
-              "loadingRecords": "载入中...",
-              "infoThousands": ",",
-              "paginate": {
-                  "first": "首页",
-                  "previous": "上页",
-                  "next": "下页",
-                  "last": "末页"
-              },
-              "aria": {
-                  paginate: {
-                      first: '首页',
-                      previous: '上页',
-                      next: '下页',
-                      last: '末页'
-                  },
-                  "sortAscending": ": 以升序排列此列",
-                  "sortDescending": ": 以降序排列此列"
-              },
-              "decimal": "-",
-              "thousands": "."
-          }
-    });
 {% endblock %}
