@@ -6,5 +6,5 @@ app_name = 'deploy'
 
 
 urlpatterns = [
-    path('', views.deploy_list, name='deploy_list')
+    path('', views.DeployIndex.as_view(), name='deploy_list')
 ]
