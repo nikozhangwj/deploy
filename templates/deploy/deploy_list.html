@@ -30,7 +30,9 @@
 <script>
     $.('body').on('click', '#deploy-list', function(){
         jQuery(document).ready(function() {
-            console.log('test deploy')
+            $.get("{% url 'deploy:get_jenkins_all' %}",{},function(){
+                console.log('test deploy')
+            });
         });
     });
 </script>
