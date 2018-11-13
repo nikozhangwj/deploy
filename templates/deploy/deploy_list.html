@@ -28,8 +28,10 @@
 {% endblock %}
 {% block custom_foot_js %}
 <script>
-    jQuery(document).ready(function() {
-        console.log('test deploy')
+    $.('body').on('click', '#deploy-list', function(){
+        jQuery(document).ready(function() {
+            console.log('test deploy')
+        });
     });
 </script>
 {% endblock %}
