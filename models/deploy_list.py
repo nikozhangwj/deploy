@@ -24,9 +24,9 @@ class DeployList(models.Model):
     job_status = models.BooleanField(default=True)
     build_status = models.CharField(max_length=128, choices=STATUS_CHOICES)
     log_path = models.CharField(max_length=256, blank=True, null=True)
-    create_time = models.TimeField(auto_now_add=True)
-    last_build_time = models.TimeField(null=True)
-    published_time = models.TimeField(null=True)
+    create_time = models.DateTimeField(auto_now_add=True)
+    last_build_time = models.DateTimeField(null=True)
+    published_time = models.DateTimeField(null=True)
     build_console_output = models.TextField(blank=True)
 
     def __str__(self):
