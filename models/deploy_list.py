@@ -8,9 +8,9 @@ from ..pjenkins.exec_jenkins import JenkinsWork
 
 
 class DeployList(models.Model):
-    SUCCESS = "success"
+    SUCCESS = "SUCCESS"
     RUNNING = "running"
-    FAILED = "failed"
+    FAILED = "FAILURE"
     LOG_DIR = os.path.join(settings.PROJECT_DIR, 'logs', 'deploy')
 
     STATUS_CHOICES = (
@@ -35,8 +35,10 @@ class DeployList(models.Model):
 
 def create_or_update(queryset):
     for job in queryset:
-        print(JenkinsWork().collect_job(job['name']))
         if DeployList.objects.filter(app_name=job['name']):
-            print('update')
+            data = JenkinsWork().collect_job(name=job['name'])
+            print(data)
         else:
+            data = JenkinsWork().collect_job(name=job['name'])
+            print(data)
             print('create')
