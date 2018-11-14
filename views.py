@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.views.generic import ListView, DetailView
 from .pjenkins.exec_jenkins import JenkinsWork
 # Create your views here.
-from .models.deploy_list import DeployList
+from .models.deploy_list import DeployList, create_or_update
 
 
 class DeployIndex(ListView):
@@ -14,5 +14,5 @@ class DeployIndex(ListView):
 
 def get_jenkins_all(request):
     jobs = JenkinsWork().collect_all_job()
-    DeployList.create_or_update(jobs)
+    create_or_update(jobs)
     return JsonResponse(dict(code=200))

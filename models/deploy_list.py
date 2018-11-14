@@ -4,6 +4,7 @@ import uuid
 import os
 from django.conf import settings
 from django.db import models
+from ..pjenkins.exec_jenkins import JenkinsWork
 
 
 class DeployList(models.Model):
@@ -31,8 +32,10 @@ class DeployList(models.Model):
     def __str__(self):
         return self.app_name
 
-    @staticmethod
-    def create_or_update(queryset):
-        for job in queryset:
-            print(job)
-        # DeployList.objects.filter(app_name=queryset)
+
+def create_or_update(queryset):
+    for job in queryset:
+        if DeployList.objects.filter(app_name=job['name']):
+            print('update')
+        else:
+            print('create')
