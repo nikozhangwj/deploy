@@ -15,6 +15,4 @@ class JenkinsWork(object):
         return all_job
 
     def collect_job(self):
-        for job in self.collect_all_job():
-            print(job)
-        return {}
+        pass
