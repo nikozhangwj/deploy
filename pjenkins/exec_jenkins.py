@@ -16,8 +16,16 @@ class JenkinsWork(object):
 
     def collect_job(self, name):
         job = self.server.get_job_info(name=name)
-        last_build_num = job['lastBuild']['number']
-        last_success_build_num = job['lastSuccessfulBuild']['number']
+        try:
+            last_success_build_num = job['lastSuccessfulBuild']['number']
+        except BaseException as error:
+            last_success_build_num = None
+
+        try:
+            last_build_num = job['lastBuild']['number']
+        except BaseException as error:
+            return False
+        
         last_build_info = self.server.get_build_info(name, last_build_num)
         last_build_console = self.server.get_build_console_output(name, last_build_num)
         last_build_time = last_build_info['timestamp']
