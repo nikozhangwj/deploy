@@ -22,7 +22,6 @@ def build_app(request):
     job_id = request.GET.get('id')
     try:
         job = DeployList.objects.get(id=job_id)
-        print(job.app_name)
     except BaseException as error:
         return JsonResponse(dict(code=400, error='error'))
     JenkinsWork().build_job(job.app_name)
