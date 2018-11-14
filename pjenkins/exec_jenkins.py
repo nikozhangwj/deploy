@@ -21,7 +21,7 @@ class JenkinsWork(object):
             last_success_build_num = job['lastSuccessfulBuild']['number']
 
         except BaseException as error:
-            last_success_build_num = None
+            last_success_build_num = 0
 
         # print(last_success_build_num)
 
