@@ -20,4 +20,4 @@ def get_jenkins_all(request):
 
 def build_app(request):
     print('build')
-    pass
+    return JsonResponse(dict(code=200))
