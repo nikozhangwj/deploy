@@ -19,5 +19,6 @@ def get_jenkins_all(request):
 
 
 def build_app(request):
-    print('build')
-    return JsonResponse(dict(code=200))
+    job_id = request.GET.get('id')
+    print(job_id)
+    return JsonResponse(dict(code=200, mgs='success'))
