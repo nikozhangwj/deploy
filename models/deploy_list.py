@@ -35,6 +35,7 @@ class DeployList(models.Model):
 
 def create_or_update(queryset):
     for job in queryset:
+        print(JenkinsWork.collect_job(job['name']))
         if DeployList.objects.filter(app_name=job['name']):
             print('update')
         else:

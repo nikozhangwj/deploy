@@ -14,5 +14,6 @@ class JenkinsWork(object):
         all_job = self.server.get_all_jobs()
         return all_job
 
-    def collect_job(self):
-        pass
+    def collect_job(self, name):
+        job = self.server.get_job_info(name=name)
+        return job
