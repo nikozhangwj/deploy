@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from .models.deploy_list import DeployList
 from django.views.generic import ListView, DetailView
 from .pjenkins.exec_jenkins import JenkinsWork
 # Create your views here.
@@ -15,6 +14,5 @@ class DeployIndex(ListView):
 
 def get_jenkins_all(request):
     jobs = JenkinsWork().collect_all_job()
-    print(jobs)
-    DeployList.create_or_update('MPS')
+    DeployList.create_or_update(jobs)
     return JsonResponse(dict(code=200))

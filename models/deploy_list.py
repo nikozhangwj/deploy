@@ -33,4 +33,6 @@ class DeployList(models.Model):
 
     @staticmethod
     def create_or_update(queryset):
-        DeployList.objects.filter(app_name=queryset)
+        for job in queryset:
+            print(job)
+        # DeployList.objects.filter(app_name=queryset)
