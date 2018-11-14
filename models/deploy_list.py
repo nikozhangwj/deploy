@@ -45,4 +45,10 @@ def create_or_update(queryset):
             )
         else:
             data = JenkinsWork().collect_job(name=job['name'])
+            DeployList.objects.create(
+                app_name=data['app_name'],
+                build_status=data['build_status'],
+                last_build_time=data['last_build_time'],
+                build_console_output=data['build_console_output'],
+            )
             print('create')
