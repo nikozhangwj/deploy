@@ -44,8 +44,8 @@ def create_or_update(queryset):
                 build_status=data['build_status'],
                 last_build_time=data['last_build_time'],
                 build_console_output=data['build_console_output'],
-                last_success_build_num=data['last_success_build_num'],
-                last_build_num=data['last_build_num']
+                last_success_build_num=int(data['last_success_build_num']),
+                last_build_num=int(data['last_build_num'])
             )
             print(data['last_success_build_num'])
             print(data['last_build_num'])
