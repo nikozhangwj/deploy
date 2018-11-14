@@ -19,8 +19,11 @@ class JenkinsWork(object):
         job = self.server.get_job_info(name=name)
         try:
             last_success_build_num = job['lastSuccessfulBuild']['number']
+
         except BaseException as error:
             last_success_build_num = None
+
+        print(last_success_build_num)
 
         try:
             last_build_num = job['lastBuild']['number']
@@ -40,7 +43,8 @@ class JenkinsWork(object):
             'build_status': last_build_status,
             'last_build_time': last_build_time,
             'build_console_output': last_build_console,
-            'last_success_build_num': last_success_build_num
+            'last_success_build_num': last_success_build_num,
+            'last_build_num': last_build_num
         }
 
     def build_job(self, name):

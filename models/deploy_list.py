@@ -29,6 +29,7 @@ class DeployList(models.Model):
     published_time = models.DateTimeField(null=True)
     build_console_output = models.TextField(blank=True)
     last_success_build_num = models.IntegerField(null=True)
+    last_build_num = models.IntegerField(null=True)
 
     def __str__(self):
         return self.app_name
@@ -43,7 +44,8 @@ def create_or_update(queryset):
                 build_status=data['build_status'],
                 last_build_time=data['last_build_time'],
                 build_console_output=data['build_console_output'],
-                last_success_build_num=data['last_success_build_num']
+                last_success_build_num=data['last_success_build_num'],
+                last_build_num=data['last_build_num']
             )
         else:
             data = JenkinsWork().collect_job(name=job['name'])
@@ -52,6 +54,7 @@ def create_or_update(queryset):
                 build_status=data['build_status'],
                 last_build_time=data['last_build_time'],
                 build_console_output=data['build_console_output'],
-                last_success_build_num=data['last_success_build_num']
+                last_success_build_num=data['last_success_build_num'],
+                last_build_num=data['last_build_num']
             )
             print('create')
