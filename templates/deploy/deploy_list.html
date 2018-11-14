@@ -24,7 +24,7 @@
           <td>{{deploy.job_status}}</td>
           <td>{{deploy.get_build_status_display}}</td>
           <td>
-              <a href="#" class="btn btn-xs btn-info">构建</a>
+              <a href="#" class="btn btn-xs btn-info btn-build">构建</a>
               <a href="#" class="btn btn-xs btn-success">发布</a>
               <a href="#" class="btn btn-xs btn-danger">回滚</a>
           </td>
@@ -35,9 +35,18 @@
 {% block custom_foot_js %}
 <script>
 jQuery(document).ready(function(){
+    //flush deploy list
     $('body').on('click', '#deploy-list', function(){
         $.get("{% url 'api-deploy:get_jenkins_all' %}", {}, function(){
             console.log("deploy")
+        });
+    });
+
+    //build job
+    $('body').on('click', '.btn-build', function(){
+        console.log('build')
+        $.get("{% url 'api-deploy:build_app' %}", {}, function(){
+
         });
     });
 });

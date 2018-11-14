@@ -16,3 +16,8 @@ def get_jenkins_all(request):
     jobs = JenkinsWork().collect_all_job()
     create_or_update(jobs)
     return JsonResponse(dict(code=200))
+
+
+def build_app(request):
+    print('build')
+    pass

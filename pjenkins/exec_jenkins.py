@@ -34,7 +34,6 @@ class JenkinsWork(object):
         ts = last_build_info['timestamp']
         sp = float(str(ts)[0:-3] + '.' + str(ts)[-3:])
         last_build_time = datetime.strftime(datetime.fromtimestamp(sp), "%Y-%m-%d %H:%M:%S")
-        print(last_build_time)
 
         return {
             'app_name': name,
