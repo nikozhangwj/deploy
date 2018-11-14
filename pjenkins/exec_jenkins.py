@@ -43,5 +43,6 @@ class JenkinsWork(object):
             'last_success_build_num': last_success_build_num
         }
 
-    def build_job(self):
-        pass
+    def build_job(self, name):
+        print(name)
+        return dict(code=200)
