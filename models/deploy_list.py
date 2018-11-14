@@ -47,6 +47,8 @@ def create_or_update(queryset):
                 last_success_build_num=data['last_success_build_num'],
                 last_build_num=data['last_build_num']
             )
+            print(data['last_success_build_num'])
+            print(data['last_build_num'])
         else:
             data = JenkinsWork().collect_job(name=job['name'])
             DeployList.objects.create(
@@ -57,4 +59,3 @@ def create_or_update(queryset):
                 last_success_build_num=data['last_success_build_num'],
                 last_build_num=data['last_build_num']
             )
-            print('create')
