@@ -42,3 +42,6 @@ class JenkinsWork(object):
             'build_console_output': last_build_console,
             'last_success_build_num': last_success_build_num
         }
+
+    def build_job(self):
+        pass

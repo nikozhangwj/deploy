@@ -21,4 +21,9 @@ def get_jenkins_all(request):
 def build_app(request):
     job_id = request.GET.get('id')
     print(job_id)
+    try:
+        job = DeployList.objects.get(id=job_id)
+        print(job)
+    except BaseException as error:
+        return JsonResponse(dict(code=400, error='error'))
     return JsonResponse(dict(code=200, mgs='success'))
