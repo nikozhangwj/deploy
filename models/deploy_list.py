@@ -31,5 +31,6 @@ class DeployList(models.Model):
     def __str__(self):
         return self.app_name
 
-    def create_or_update(self, queryset):
-        pass
+    @staticmethod
+    def create_or_update(queryset):
+        DeployList.objects.filter(app_name=queryset)

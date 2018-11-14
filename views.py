@@ -16,4 +16,5 @@ class DeployIndex(ListView):
 def get_jenkins_all(request):
     jobs = JenkinsWork().collect_all_job()
     print(jobs)
+    DeployList.create_or_update('MPS')
     return JsonResponse(dict(code=200))
