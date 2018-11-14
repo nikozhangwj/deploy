@@ -1,5 +1,5 @@
 import jenkins
-
+import time
 
 class JenkinsWork(object):
 
@@ -25,11 +25,16 @@ class JenkinsWork(object):
             last_build_num = job['lastBuild']['number']
         except BaseException as error:
             return False
-        
+
         last_build_info = self.server.get_build_info(name, last_build_num)
         last_build_console = self.server.get_build_console_output(name, last_build_num)
-        last_build_time = last_build_info['timestamp']
         last_build_status = last_build_info['result']
+
+        ts = last_build_info['timestamp']
+        sp = float(str(ts)[0:-3] + '.' + str(ts)[-3:])
+        last_build_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(sp))
+        print(last_build_time)
+
         return {
             'app_name': name,
             'build_status': last_build_status,

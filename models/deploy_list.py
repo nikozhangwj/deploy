@@ -37,7 +37,14 @@ def create_or_update(queryset):
     for job in queryset:
         if DeployList.objects.filter(app_name=job['name']):
             data = JenkinsWork().collect_job(name=job['name'])
-            print(data)
+            task = DeployList.objects.filter(app_name='app_test')
+            '''
+            task.update(
+                build_status=data['build_status'],
+                last_build_time=data['last_build_time'],
+                build_console_output=['build_console_output']
+            )
+            '''
         else:
             data = JenkinsWork().collect_job(name=job['name'])
             print(data)
