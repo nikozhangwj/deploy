@@ -18,10 +18,11 @@
       {% for deploy in deploys %}
         <tr>
           <td>{{deploy.last_build_time}}</td>
+          <td>{{deploy.published_time}}</td>
           <td>{{deploy.app_name}}</td>
           <td>{{deploy.job_status}}</td>
           <td>{{deploy.get_build_status_display}}</td>
-          <td>发布 回滚 查看console输出</td>
+          <td>部署 发布 回滚</td>
         </tr>
       {% endfor %}
       </tbody>
