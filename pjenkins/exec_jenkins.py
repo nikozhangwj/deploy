@@ -1,5 +1,6 @@
 import jenkins
-import time
+from django.utils.timezone import datetime
+
 
 class JenkinsWork(object):
 
@@ -32,7 +33,7 @@ class JenkinsWork(object):
 
         ts = last_build_info['timestamp']
         sp = float(str(ts)[0:-3] + '.' + str(ts)[-3:])
-        last_build_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(sp))
+        last_build_time = datetime.strftime(datetime.fromtimestamp(sp), "%Y-%m-%d %H:%M:%S")
         print(last_build_time)
 
         return {
