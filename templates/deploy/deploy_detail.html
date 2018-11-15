@@ -52,7 +52,7 @@
                                         <tr class="no-borders-tr">
                                             <td>{% trans 'Name' %}:</td>
                                             <td><b>{{ result.app_name }}</b></td>
-                                            <input type="hidden" class="console" value="{{ result.build_console_output }}"/>
+                                            <input type="hidden" class="console" value=""/>
                                         </tr>
                                         <tr>
                                             <td>{% trans 'Date created' %}:</td>
@@ -69,6 +69,14 @@
                                         <tr>
                                             <td>最后一次构建状态:</td>
                                             <td><b>{{result.build_status}}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>最后一次构建状态:</td>
+                                            <td><b>{{result.deploy_file_path}}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>最后一次构建状态:</td>
+                                            <td><b>{{result.build_console_output}}</b></td>
                                         </tr>
                                         </tbody>
                                     </table>
