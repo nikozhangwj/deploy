@@ -6,8 +6,8 @@ import os
 from celery import shared_task
 from django.core.cache import cache
 from django.utils.translation import ugettext as _
+from apps.assets.models import AdminUser, Asset
 
-from ..assets.models import AdminUser, Asset
 from . import const
 
 
@@ -19,7 +19,7 @@ def test_ansible_ping(asset):
 
 @shared_task
 def test_ansible_ping_util(asset, task_name):
-    from ops.utils import update_or_create_ansible_task
+    from apps.ops.utils import update_or_create_ansible_task
 
     hosts = [asset.fullname]
     tasks = const.TEST_CONN_TASKS

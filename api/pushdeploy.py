@@ -4,9 +4,9 @@ from django.db import transaction
 from rest_framework import generics
 from rest_framework.response import Response
 from ..models import DeployList
-from ...assets.models import AdminUser, Asset
+from apps.assets.models import AdminUser, Asset
 from django.http import JsonResponse
-from ..tasks import test_ansible_ping
+from apps.deploy.tasks import test_ansible_ping
 
 
 def get_host_admin(request):
