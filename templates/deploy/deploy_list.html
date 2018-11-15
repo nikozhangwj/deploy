@@ -38,7 +38,7 @@
 <script>
 jQuery(document).ready(function(){
     //flush deploy list
-    $('body').on('click', 'btn-update', function(){
+    $('body').on('click', '.btn-update', function(){
         $.get("{% url 'api-deploy:get_jenkins_all' %}", {}, function(){});
     });
 
