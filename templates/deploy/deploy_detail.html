@@ -83,7 +83,7 @@
                                 <div class="panel-body">
                                     <table class="table group_edit" id="table-clusters">
                                         <tbody>
-                                        <form>
+                                        <form class="deploy-form">
                                             <tr>
                                                 <td colspan="2" class="no-borders">
                                                     <label>请输入需要升级的设备IP:</label>
@@ -92,7 +92,7 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="2" class="no-borders">
-                                                    <button type="button" class="btn btn-primary btn-sm" id="">{% trans 'Confirm' %}</button>
+                                                    <button type="button" class="btn btn-primary btn-sm btn-deploy" id="">{% trans 'Confirm' %}</button>
                                                 </td>
                                             </tr>
                                         </form>
@@ -110,6 +110,9 @@
 {% endblock %}
 {% block custom_foot_js %}
 <script>
-
+    $('body').on('click', '.btn-deploy', function(){
+        var data = $('.deploy-form').serializeArray();
+        console.log(data)
+    });
 </script>
 {% endblock %}
