@@ -1,7 +1,7 @@
 {% extends '_base_list.html' %}
 {% load i18n %}
 {% load static %}
-{% block content_left_head %}<a href="#" class="btn btn-xs btn-info">获取Jenkins最新状态</a>{% endblock %}
+{% block content_left_head %}<a href="javascript:void(0)" class="btn btn-xs btn-info btn-update">获取Jenkins最新状态</a>{% endblock %}
 {% block table_head %}
       <thead>
         <tr>
@@ -38,7 +38,7 @@
 <script>
 jQuery(document).ready(function(){
     //flush deploy list
-    $('body').on('click', '#deploy-list', function(){
+    $('body').on('click', 'btn-update', function(){
         $.get("{% url 'api-deploy:get_jenkins_all' %}", {}, function(){});
     });
 
