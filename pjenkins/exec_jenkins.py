@@ -35,7 +35,8 @@ class JenkinsWork(object):
         last_build_info = self.server.get_build_info(name, last_build_num)
         last_build_console = self.server.get_build_console_output(name, last_build_num)
         last_build_status = last_build_info['result']
-
+        if not last_build_status:
+            last_build_status = "RUNNING"
         ts = last_build_info['timestamp']
         sp = float(str(ts)[0:-3] + '.' + str(ts)[-3:])
         last_build_time = datetime.strftime(datetime.fromtimestamp(sp), "%Y-%m-%d %H:%M:%S")
