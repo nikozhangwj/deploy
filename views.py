@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.utils.translation import ugettext as _
 from django.http import JsonResponse
 from django.views.generic import ListView, DetailView
 from .pjenkins.exec_jenkins import JenkinsWork
@@ -32,3 +33,12 @@ class DeployOptionList(DetailView):
     model = DeployList
     template_name = 'deploy/deploy_detail.html'
     context_object_name = 'result'
+    object = None
+
+    def get_context_data(self, **kwargs):
+        context = {
+            'app': _('deploy'),
+            'action': _('Depoly detail')
+        }
+        kwargs.update(context)
+        return super().get_context_data(**kwargs)
