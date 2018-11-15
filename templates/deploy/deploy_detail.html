@@ -77,7 +77,7 @@
                         <div class="col-sm-4" style="padding-left: 0;padding-right: 0">
                             <div class="panel panel-primary">
                                 <div class="panel-heading">
-                                    <i class="fa fa-info-circle"></i> {% trans 'Replace node assets admin user with this' %}
+                                    <i class="fa fa-info-circle"></i> 操作框
                                 </div>
                                 <div class="panel-body">
                                     <table class="table group_edit" id="table-clusters">
@@ -85,15 +85,13 @@
                                         <form>
                                             <tr>
                                                 <td colspan="2" class="no-borders">
-                                                    <select data-placeholder="{% trans 'Select nodes' %}"  id="nodes_selected"  class="select2" style="width: 100%" multiple="" tabindex="4">
-                                                        <option value="" id="1" >1</option>
-
-                                                    </select>
+                                                    <label>请输入需要升级的设备IP:</label>
+                                                    <input type="text-center" name="task_host"/>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td colspan="2" class="no-borders">
-                                                    <button type="button" class="btn btn-primary btn-sm" id="btn-change-admin-user">{% trans 'Confirm' %}</button>
+                                                    <button type="button" class="btn btn-primary btn-sm" id="">{% trans 'Confirm' %}</button>
                                                 </td>
                                             </tr>
                                         </form>
