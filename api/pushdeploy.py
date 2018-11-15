@@ -4,7 +4,7 @@ from django.db import transaction
 from rest_framework import generics
 from rest_framework.response import Response
 from ..models import DeployList
-from assets.models import AdminUser, Asset
+from ...assets.models import AdminUser, Asset
 from django.http import JsonResponse
 from ..tasks import test_ansible_ping
 
