@@ -57,6 +57,18 @@
                                             <td>{% trans 'Date created' %}:</td>
                                             <td><b>{{ result.create_time }}</b></td>
                                         </tr>
+                                        <tr>
+                                            <td>最后一次构建时间:</td>
+                                            <td><b>{{deploy.last_build_time}}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>最后一次构建ID:</td>
+                                            <td><b>{{deploy.last_build_num}}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>最后一次构建状态:</td>
+                                            <td><b>{{deploy.job_status}}</b></td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
