@@ -3,7 +3,6 @@
 from django.db import transaction
 from rest_framework import generics
 from rest_framework.response import Response
-from ...assets.models import AdminUser, Asset
 from ..models import DeployList
 
 """

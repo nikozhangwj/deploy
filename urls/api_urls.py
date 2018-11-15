@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .. import views
-from ..api import pushdeploy
+# from ..api import pushdeploy
 
 app_name = 'deploy'
 
