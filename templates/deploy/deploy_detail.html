@@ -121,8 +121,8 @@
     $('body').on('click', '.btn-deploy', function(){
         var data = $('.deploy-form').serializeArray();
         console.log(data)
-        $.post("{% url 'api-deploy:get_host_admin' %}", data, function(result){
-            console.log(data)
+        $.get("{% url 'api-deploy:get_host_admin' %}", data, function(result){
+            console.log(result)
         });
     });
 </script>

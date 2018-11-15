@@ -9,5 +9,5 @@ from django.http import JsonResponse
 
 
 def get_host_admin(request):
-    print(request.POST)
+    print(request.GET)
     return JsonResponse(dict(code=200))
