@@ -39,8 +39,7 @@
 jQuery(document).ready(function(){
     //flush deploy list
     $('body').on('click', '#deploy-list', function(){
-        $.get("{% url 'api-deploy:get_jenkins_all' %}", {}, function(){
-        });
+        $.get("{% url 'api-deploy:get_jenkins_all' %}", {}, function(){});
     });
 
     //build job
@@ -49,6 +48,8 @@ jQuery(document).ready(function(){
         $.get("{% url 'api-deploy:build_app' %}", {'id':id}, function(result){
             console.log(result)
         });
+        $.get("{% url 'api-deploy:get_jenkins_all' %}", {}, function(){});
+        window.location.reload()
     });
 
     $('body').on('click', '.btn-deploy', function(){
