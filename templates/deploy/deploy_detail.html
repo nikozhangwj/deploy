@@ -52,6 +52,7 @@
                                         <tr class="no-borders-tr">
                                             <td>{% trans 'Name' %}:</td>
                                             <td><b>{{ result.app_name }}</b></td>
+                                            <input type="hidden" class="console" value="{{ result.build_console_output }}"/>
                                         </tr>
                                         <tr>
                                             <td>{% trans 'Date created' %}:</td>
