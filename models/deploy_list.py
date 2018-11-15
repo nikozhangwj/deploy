@@ -9,7 +9,7 @@ from ..pjenkins.exec_jenkins import JenkinsWork
 
 class DeployList(models.Model):
     SUCCESS = "SUCCESS"
-    RUNNING = "running"
+    RUNNING = "RUNNING"
     FAILED = "FAILURE"
     LOG_DIR = os.path.join(settings.PROJECT_DIR, 'logs', 'deploy')
 
@@ -41,7 +41,7 @@ def create_or_update(queryset):
             data = JenkinsWork().collect_job(name=job['name'])
             task = DeployList.objects.filter(app_name=job['name'])
             task.update(
-                build_status=data['build_status'],
+                build_status=data.get('build_status', 'RUNNING'),
                 last_build_time=data['last_build_time'],
                 build_console_output=data['build_console_output'],
                 last_success_build_num=data['last_success_build_num'],
@@ -51,7 +51,7 @@ def create_or_update(queryset):
             data = JenkinsWork().collect_job(name=job['name'])
             DeployList.objects.create(
                 app_name=data['app_name'],
-                build_status=data['build_status'],
+                build_status=data.get('build_status', 'RUNNING'),
                 last_build_time=data['last_build_time'],
                 build_console_output=data['build_console_output'],
                 last_success_build_num=data['last_success_build_num'],
