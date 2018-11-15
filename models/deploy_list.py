@@ -12,6 +12,7 @@ class DeployList(models.Model):
     RUNNING = "RUNNING"
     FAILED = "FAILURE"
     LOG_DIR = os.path.join(settings.PROJECT_DIR, 'logs', 'deploy')
+    DEPLOY_FILE_DIR = '/deploy/'
 
     STATUS_CHOICES = (
         (SUCCESS, SUCCESS),
@@ -30,6 +31,7 @@ class DeployList(models.Model):
     build_console_output = models.TextField(blank=True)
     last_success_build_num = models.IntegerField(null=True)
     last_build_num = models.IntegerField(null=True)
+    deploy_file_path = models.CharField(max_length=1024)
 
     def __str__(self):
         return self.app_name
@@ -45,7 +47,8 @@ def create_or_update(queryset):
                 last_build_time=data['last_build_time'],
                 build_console_output=data['build_console_output'],
                 last_success_build_num=data['last_success_build_num'],
-                last_build_num=data['last_build_num']
+                last_build_num=data['last_build_num'],
+                deploy_file_path=os.path.join(DeployList.DEPLOY_FILE_DIR, job['name'], job['name']+'.jar')
             )
         else:
             data = JenkinsWork().collect_job(name=job['name'])
@@ -55,5 +58,6 @@ def create_or_update(queryset):
                 last_build_time=data['last_build_time'],
                 build_console_output=data['build_console_output'],
                 last_success_build_num=data['last_success_build_num'],
-                last_build_num=data['last_build_num']
+                last_build_num=data['last_build_num'],
+                deploy_file_path=os.path.join(DeployList.DEPLOY_FILE_DIR, job['name'], job['name'] + '.jar')
             )
