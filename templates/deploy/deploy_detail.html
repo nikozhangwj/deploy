@@ -121,6 +121,9 @@
     $('body').on('click', '.btn-deploy', function(){
         var data = $('.deploy-form').serializeArray();
         console.log(data)
+        $.post("{% url '' %}", data, function(result){
+            console.log(data)
+        });
     });
 </script>
 {% endblock %}
