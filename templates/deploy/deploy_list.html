@@ -7,7 +7,7 @@
         <tr>
             <th>最后一次构建时间</th>
             <th>最后一次构建ID</th>
-            <th>发布时间</th>
+            <th>上一次发布时间</th>
             <th>APP Name</th>
             <th>项目状态</th>
             <th>构建状态</th>
@@ -27,7 +27,7 @@
           <td>{{deploy.get_build_status_display}}</td>
           <td id="{{deploy.id}}">
               <a href="javascript:void(0)" class="btn btn-xs btn-info btn-build">构建</a>
-              <a href="javascript:void(0)" class="btn btn-xs btn-success">发布</a>
+              <a href="{% url 'deploy:DeployOptionList' deploy.id %}" class="btn btn-xs btn-success btn-deploy">发布</a>
               <a href="javascript:void(0)" class="btn btn-xs btn-danger">回滚</a>
           </td>
         </tr>
@@ -49,6 +49,20 @@ jQuery(document).ready(function(){
         $.get("{% url 'api-deploy:build_app' %}", {'id':id}, function(result){
             console.log(result)
         });
+    });
+
+    $('body').on('click', '.btn-deploy', function(){
+      var task_id = $(this).parent().attr("id");
+      var the_url = '{% url "api-assets:admin-user-connective" pk=DEFAULT_PK %}'.replace("{{ DEFAULT_PK }}", task_id);
+      var success = function(){
+        console.log(task_id)
+      };
+      APIUpdateAttr({
+        url: the_url,
+        method: 'GET',
+        success: success,
+        flash_message: false
+      });
     });
 });
 </script>
