@@ -31,7 +31,7 @@ class DeployList(models.Model):
     build_console_output = models.TextField(blank=True)
     last_success_build_num = models.IntegerField(null=True)
     last_build_num = models.IntegerField(null=True)
-    deploy_file_path = models.CharField(max_length=1024)
+    deploy_file_path = models.CharField(max_length=1024, null=True)
 
     def __str__(self):
         return self.app_name
