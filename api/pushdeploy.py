@@ -31,5 +31,5 @@ def deploy_file_to_asset(request):
         return JsonResponse(dict(code=400, error=str(error)))
 
     task = push_build_file_to_asset_manual(asset, app_name)
-    print(task[0])
+    print(task[0]['ok'])
     return JsonResponse(dict(code=200, task=task))
