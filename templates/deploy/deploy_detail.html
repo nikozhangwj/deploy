@@ -122,7 +122,7 @@
     $('body').on('click', '.btn-deploy', function(){
         var data = $('.deploy-form').serializeArray();
         console.log(data)
-        $.get("{% url 'api-deploy:get_host_admin' %}", data, function(result){
+        $.get("{% url 'api-deploy:deploy_file_to_asset' %}", data, function(result){
             console.log(result)
         });
     });
