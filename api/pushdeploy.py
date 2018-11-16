@@ -18,4 +18,4 @@ def get_host_admin(request):
         return JsonResponse(dict(code=400, error=str(error)))
     task = test_ansible_ping(asset)
     print(task)
-    return JsonResponse(dict(code=200, task=task.id))
+    return JsonResponse(dict(code=200, task=task))
