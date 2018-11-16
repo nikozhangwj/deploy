@@ -5,6 +5,7 @@ import os
 from django.conf import settings
 from django.db import models
 from ..pjenkins.exec_jenkins import JenkinsWork
+from datetime import datetime
 
 
 class DeployList(models.Model):
@@ -34,6 +35,7 @@ class DeployList(models.Model):
     last_build_num = models.IntegerField(null=True)
     deploy_file_path = models.CharField(max_length=1024, null=True)
     dest_file_path = models.CharField(max_length=1024, null=True)
+    backup_file_path = models.CharField(max_length=1024, null=True)
 
     def __str__(self):
         return self.app_name
@@ -49,6 +51,11 @@ def get_dest_file_path(app_name):
     return app.dest_file_path
 
 
+def get_backup_file_path(app_name):
+    app = DeployList.objects.get(app_name=app_name)
+    return app.backup_file_path
+
+
 def create_or_update(queryset):
     for job in queryset:
         if DeployList.objects.filter(app_name=job['name']):
@@ -61,7 +68,12 @@ def create_or_update(queryset):
                 last_success_build_num=data['last_success_build_num'],
                 last_build_num=data['last_build_num'],
                 deploy_file_path=os.path.join(DeployList.DEPLOY_FILE_DIR, job['name'], job['name']+'.jar'),
-                dest_file_path=os.path.join(DeployList.DEST_FILE_DIR, job['name'], job['name']+'.jar')
+                dest_file_path=os.path.join(DeployList.DEST_FILE_DIR, job['name'], job['name']+'.jar'),
+                backup_file_path=os.path.join(
+                    DeployList.DEPLOY_FILE_DIR,
+                    job['name'],
+                    job['name'] + '.jar' + datetime.strftime(datetime.now(), '%Y%m%d')
+                )
             )
         else:
             data = JenkinsWork().collect_job(name=job['name'])
@@ -73,5 +85,10 @@ def create_or_update(queryset):
                 last_success_build_num=data['last_success_build_num'],
                 last_build_num=data['last_build_num'],
                 deploy_file_path=os.path.join(DeployList.DEPLOY_FILE_DIR, job['name'], job['name'] + '.jar'),
-                dest_file_path=os.path.join(DeployList.DEST_FILE_DIR, job['name'], job['name'] + '.jar')
+                dest_file_path=os.path.join(DeployList.DEST_FILE_DIR, job['name'], job['name'] + '.jar'),
+                backup_file_path=os.path.join(
+                    DeployList.DEPLOY_FILE_DIR,
+                    job['name'],
+                    job['name'] + '.jar' + datetime.strftime(datetime.now(), '%Y%m%d')
+                )
             )
