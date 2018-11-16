@@ -6,7 +6,7 @@ import os
 from celery import shared_task
 from django.core.cache import cache
 from django.utils.translation import ugettext as _
-from apps.assets.models import AdminUser, Asset
+# from assets.models import AdminUser, Asset
 
 from . import const
 
