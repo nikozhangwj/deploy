@@ -12,6 +12,7 @@ from ..tasks import test_ansible_ping
 def get_host_admin(request):
     host = request.GET.get('task_host')
     asset = Asset.objects.get(ip=host)
+    print(asset)
     task = test_ansible_ping(asset)
     print(task, task.id)
     return JsonResponse(dict(code=200))
