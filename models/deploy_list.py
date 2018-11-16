@@ -37,6 +37,11 @@ class DeployList(models.Model):
         return self.app_name
 
 
+def get_deploy_file_path(app_name):
+    app = DeployList.objects.get(app_name=app_name)
+    return app.deploy_file_path
+
+
 def create_or_update(queryset):
     for job in queryset:
         if DeployList.objects.filter(app_name=job['name']):
