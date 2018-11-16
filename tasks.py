@@ -31,5 +31,4 @@ def test_ansible_ping_util(asset, task_name):
     )
 
     result, summery = task.run()
-    print(summery)
     return result
