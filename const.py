@@ -17,6 +17,13 @@ TEST_CONN_TASKS = [
 
 COPY_FILE_TO_TASK = [
     {
+        "name": "script",
+        "action": {
+            "module": "script",
+            "args": ""
+        }
+    },
+    {
         "name": "copy",
         "action": {
             "module": "copy",
