@@ -47,8 +47,8 @@ def push_build_file_to_asset_util(asset, task_name, app_name):
     from ops.utils import update_or_create_ansible_task
 
     hosts = [asset.fullname]
-    tasks = const.COPY_FILE_TO_TASK.format(get_deploy_file_path(app_name), get_deploy_file_path(app_name))
-
+    tasks = const.COPY_FILE_TO_TASK
+    tasks[0]['action']['args'] = "src={0} dest={1}".format(get_deploy_file_path(app_name), get_deploy_file_path(app_name))
     task, create = update_or_create_ansible_task(
         task_name=task_name,
         hosts=hosts, tasks=tasks,
