@@ -20,7 +20,7 @@ COPY_FILE_TO_TASK = [
         "name": "copy",
         "action": {
             "module": "copy",
-            "args": ""
+            "args": "src={0} dest={1}"
         }
     }
 ]
