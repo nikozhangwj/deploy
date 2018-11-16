@@ -24,9 +24,16 @@ COPY_FILE_TO_TASK = [
         }
     },
     {
-        "name": "ping",
+        "name": "file",
         "action": {
-            "module": "ping",
+            "module": "file",
+            "args": "",
+        }
+    },
+    {
+        "name": "file",
+        "action": {
+            "module": "file",
             "args": "",
         }
     }

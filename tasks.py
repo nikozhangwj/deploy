@@ -7,7 +7,7 @@ from celery import shared_task
 from django.core.cache import cache
 from django.utils.translation import ugettext as _
 # from assets.models import AdminUser, Asset
-from .models import get_deploy_file_path, get_dest_file_path, get_backup_file_path
+from .models import get_deploy_file_path, get_dest_file_path
 from . import const
 
 
@@ -48,10 +48,14 @@ def push_build_file_to_asset_util(asset, task_name, app_name):
 
     hosts = [asset.fullname]
     tasks = const.COPY_FILE_TO_TASK
-    tasks[0]['action']['args'] = "src={0} dest={1} backup_file={2}".format(
+    tasks[0]['action']['args'] = "src={0} dest={1}".format(
         get_deploy_file_path(app_name),
-        get_dest_file_path(app_name),
-        get_backup_file_path(app_name)
+        get_dest_file_path(app_name)
+    )
+    tasks[1]['action']['args'] = "path={0} state=absent".format(get_dest_file_path(app_name))
+    tasks[2]['action']['args'] = "src={0} state=link path={1}".format(
+        get_deploy_file_path(app_name),
+        get_dest_file_path(app_name)
     )
     task, create = update_or_create_ansible_task(
         task_name=task_name,

@@ -51,11 +51,6 @@ def get_dest_file_path(app_name):
     return app.dest_file_path
 
 
-def get_backup_file_path(app_name):
-    app = DeployList.objects.get(app_name=app_name)
-    return app.backup_file_path
-
-
 def create_or_update(queryset):
     for job in queryset:
         if DeployList.objects.filter(app_name=job['name']):
@@ -68,12 +63,7 @@ def create_or_update(queryset):
                 last_success_build_num=data['last_success_build_num'],
                 last_build_num=data['last_build_num'],
                 deploy_file_path=os.path.join(DeployList.DEPLOY_FILE_DIR, job['name'], job['name']+'.jar'),
-                dest_file_path=os.path.join(DeployList.DEST_FILE_DIR, job['name'], job['name']+'.jar'),
-                backup_file_path=os.path.join(
-                    DeployList.DEPLOY_FILE_DIR,
-                    job['name'],
-                    job['name'] + '.jar' + datetime.strftime(datetime.now(), '%Y%m%d')
-                )
+                dest_file_path=os.path.join(DeployList.DEST_FILE_DIR, job['name'], job['name']+'.jar')
             )
         else:
             data = JenkinsWork().collect_job(name=job['name'])
@@ -85,10 +75,5 @@ def create_or_update(queryset):
                 last_success_build_num=data['last_success_build_num'],
                 last_build_num=data['last_build_num'],
                 deploy_file_path=os.path.join(DeployList.DEPLOY_FILE_DIR, job['name'], job['name'] + '.jar'),
-                dest_file_path=os.path.join(DeployList.DEST_FILE_DIR, job['name'], job['name'] + '.jar'),
-                backup_file_path=os.path.join(
-                    DeployList.DEPLOY_FILE_DIR,
-                    job['name'],
-                    job['name'] + '.jar' + datetime.strftime(datetime.now(), '%Y%m%d')
-                )
+                dest_file_path=os.path.join(DeployList.DEST_FILE_DIR, job['name'], job['name'] + '.jar')
             )
