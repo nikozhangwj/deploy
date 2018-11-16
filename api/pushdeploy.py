@@ -3,6 +3,7 @@
 from django.db import transaction
 from rest_framework import generics
 from rest_framework.response import Response
+from django.utils import timezone
 from ..models import DeployList
 from assets.models import AdminUser, Asset
 from django.http import JsonResponse
@@ -31,5 +32,11 @@ def deploy_file_to_asset(request):
         return JsonResponse(dict(code=400, error=str(error)))
 
     task = push_build_file_to_asset_manual(asset, app_name)
-    print(task[0]['ok'])
-    return JsonResponse(dict(code=200, task=task))
+    if task[0]['ok']:
+        job = DeployList.objects.get(app_name=app_name)
+        job.published_time = timezone.now()
+        job.save()
+        return JsonResponse(dict(code=200, task=task))
+    else:
+        JsonResponse(dict(code=400, error="升级失败,请回滚"))
+
