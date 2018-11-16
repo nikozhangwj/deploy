@@ -30,5 +30,6 @@ def test_ansible_ping_util(asset, task_name):
         options=const.TASK_OPTIONS, run_as_admin=True, created_by='System'
     )
 
-    result = task.run()
+    result, summery = task.run()
+    print(summery)
     return result

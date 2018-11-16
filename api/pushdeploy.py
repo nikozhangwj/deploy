@@ -18,4 +18,5 @@ def get_host_admin(request):
     except ObjectDoesNotExist as error:
         return JsonResponse(dict(code=400, error=str(error)))
     task = test_ansible_ping.delay(asset)
+    print(task)
     return JsonResponse(dict(code=200, task=task.id))
