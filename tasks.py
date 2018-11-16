@@ -19,7 +19,7 @@ def test_ansible_ping(asset):
 
 @shared_task
 def test_ansible_ping_util(asset, task_name):
-    from apps.ops.utils import update_or_create_ansible_task
+    from ops.utils import update_or_create_ansible_task
 
     hosts = [asset.fullname]
     tasks = const.TEST_CONN_TASKS
