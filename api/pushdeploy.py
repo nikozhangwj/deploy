@@ -14,6 +14,4 @@ def get_host_admin(request):
     asset = Asset.objects.get(ip=host)
     print(asset)
     task = test_ansible_ping.delay(asset)
-    print(task)
-    print(task.id)
-    return JsonResponse(dict(code=200))
+    return JsonResponse(dict(code=200, task=task.id))
