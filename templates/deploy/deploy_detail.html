@@ -127,7 +127,7 @@
         var data = $('.deploy-form').serializeArray();
         console.log(data)
         $.get("{% url 'api-deploy:deploy_file_to_asset' %}", data, function(result){
-            console.log(result)
+            console.log(result.code)
         });
     });
 </script>
