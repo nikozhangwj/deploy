@@ -36,6 +36,7 @@ def deploy_file_to_asset(request):
         job = DeployList.objects.get(app_name=app_name)
         job.published_time = timezone.now()
         job.save()
+        print(task)
         return JsonResponse(dict(code=200, task=task))
     else:
         JsonResponse(dict(code=400, error="升级失败,请回滚"))
