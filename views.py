@@ -2,12 +2,13 @@ from django.shortcuts import render
 from django.utils.translation import ugettext as _
 from django.http import JsonResponse
 from django.views.generic import ListView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .pjenkins.exec_jenkins import JenkinsWork
 # Create your views here.
 from .models.deploy_list import DeployList, create_or_update
 
 
-class DeployIndex(ListView):
+class DeployIndex(LoginRequiredMixin, ListView):
     model = DeployList
     template_name = 'deploy/deploy_list.html'
     context_object_name = 'deploys'
