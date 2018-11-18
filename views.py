@@ -30,7 +30,7 @@ def build_app(request):
     return JsonResponse(dict(code=200, mgs='success'))
 
 
-class DeployOptionList(DetailView):
+class DeployOptionList(LoginRequiredMixin, DetailView):
     model = DeployList
     template_name = 'deploy/deploy_detail.html'
     context_object_name = 'result'
