@@ -127,7 +127,6 @@
         var data = $('.deploy-form').serializeArray();
         console.log(data)
         $.get("{% url 'api-deploy:deploy_file_to_asset' %}", data, function(result){
-            \\console.log(result.code)
             if(result.code==200) {
                 console.log(result.task)
             }
