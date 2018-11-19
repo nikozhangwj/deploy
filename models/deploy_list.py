@@ -47,7 +47,7 @@ class DeployList(models.Model):
 
 class DeployVersion(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    app_name = models.ForeignKey(DeployList.app_name, on_delete=models.PROTECT, null=True, verbose_name=_("App Name"))
+    app_name = models.ForeignKey(DeployList, on_delete=models.PROTECT, null=True, verbose_name=_("App Name"))
     version_path = models.CharField(max_length=1024, null=True)
     symbol = models.CharField(max_length=64)
     create_time = models.DateTimeField(auto_now_add=True)
