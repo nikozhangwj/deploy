@@ -75,12 +75,12 @@ def create_or_update(queryset):
                 build_status=data.get('build_status', 'RUNNING'),
                 last_build_time=data.get('last_build_time', None),
                 build_console_output=data.get('build_console_output', ''),
-                last_success_build_num=data.get('last_success_build_num', 000),
+                last_success_build_num=data.get('last_success_build_num', None),
                 last_build_num=data.get('last_build_num', None),
                 build_file_path=os.path.join(
                     DeployList.BUILD_FILE_DIR,
                     job['name'],
-                    job['name']+data['last_success_build_num']+'.jar'
+                    job['name']+data.get('last_success_build_num', 'None')+'.jar'
                 )
             )
         else:
@@ -90,12 +90,12 @@ def create_or_update(queryset):
                 build_status=data.get('build_status', 'RUNNING'),
                 last_build_time=data.get('last_build_time', None),
                 build_console_output=data.get('build_console_output', ''),
-                last_success_build_num=data.get('last_success_build_num', 000),
+                last_success_build_num=data.get('last_success_build_num', None),
                 last_build_num=data.get('last_build_num', None),
                 build_file_path=os.path.join(
                     DeployList.BUILD_FILE_DIR,
                     job['name'],
-                    job['name'] + data['last_success_build_num'] + '.jar'
+                    job['name']+data.get('last_success_build_num', 'None')+'.jar'
                 )
             )
 
