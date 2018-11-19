@@ -47,7 +47,7 @@ class DeployList(models.Model):
 
 class DeployVersion(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    app_id = models.ForeignKey(DeployList, on_delete=models.PROTECT, null=True, verbose_name=_("App ID"))
+    app_name = models.ForeignKey(DeployList.app_name, on_delete=models.PROTECT, null=True, verbose_name=_("App Name"))
     version_path = models.CharField(max_length=1024, null=True)
     symbol = models.CharField(max_length=64)
     create_time = models.DateTimeField(auto_now_add=True)
@@ -129,11 +129,11 @@ def turn_build_file_to_deploy(app_name):
 
 def add_version_list(app_name):
     app = DeployList.objects.get(app_name=app_name)
-    dl = DeployVersion.objects.filter(app_id=app.id)
+    dl = DeployVersion.objects.filter(app_name=app.app_name)
     dl.update(symbol=False)
 
     DeployVersion.objects.create(
-        app_id=app.id,
+        app_name=app.app_name,
         version_path=app.deploy_file_path,
         symbol=True
     )
