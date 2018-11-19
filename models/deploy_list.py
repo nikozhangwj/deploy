@@ -4,6 +4,7 @@ import uuid
 import os
 from django.conf import settings
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 from ..pjenkins.exec_jenkins import JenkinsWork
 from datetime import datetime
 
@@ -39,6 +40,14 @@ class DeployList(models.Model):
 
     def __str__(self):
         return self.app_name
+
+
+class DeployVersion(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    app_id = models.ForeignKey('DeployList.id', on_delete=models.PROTECT, null=True, verbose_name=_("App ID"))
+    version_path = models.CharField(max_length=1024, null=True)
+    symbol = models.CharField(max_length=64)
+    create_time = models.DateTimeField(auto_now_add=True)
 
 
 def get_deploy_file_path(app_name):
