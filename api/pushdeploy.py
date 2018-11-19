@@ -4,6 +4,7 @@ from django.db import transaction
 from rest_framework import generics
 from rest_framework.response import Response
 from django.utils import timezone
+from django.core import serializers
 from ..models import DeployList, DeployVersion, add_version_list, turn_build_file_to_deploy
 from assets.models import AdminUser, Asset
 from django.http import JsonResponse, HttpResponse
@@ -45,6 +46,6 @@ def deploy_file_to_asset(request):
 
 def get_version_history(request):
     app_id = request.GET.get('id')
-    version = DeployVersion.objects.filter(app_name_id=app_id)
+    version = serializers.serialize("json", DeployVersion.objects.filter(app_name_id=app_id))
     print(version)
-    return HttpResponse('hello')
+    return HttpResponse(version)
