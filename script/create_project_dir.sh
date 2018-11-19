@@ -8,4 +8,5 @@ exit 1;
 fi
 
 APP_NAME=$1
+mkdir -p /deploy/${APP_NAME}/
 mkdir -p /data/${APP_NAME}/{tmp,download,static,secrets,bin,config,logs}
