@@ -11,10 +11,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='deployversion',
-            name='app_id',
-        ),
         migrations.AddField(
             model_name='deployversion',
             name='app_name',

@@ -19,7 +19,6 @@ class Migration(migrations.Migration):
                 ('version_path', models.CharField(max_length=1024, null=True)),
                 ('symbol', models.CharField(max_length=64)),
                 ('create_time', models.DateTimeField(auto_now_add=True)),
-                ('app_id', models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, to='deploy.DeployList', verbose_name='App ID')),
             ],
         ),
     ]
