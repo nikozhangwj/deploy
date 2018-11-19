@@ -29,10 +29,10 @@
                 {% else %}
                 <a href="javascript:void(0)" class="btn btn-xs btn-info btn-build" disabled="disabled">构建</a>
                 {% endif %}
-                {% if build_status = SUCCESS %}
-                <a href="{% url 'deploy:DeployOptionList' pk=deploy.pk %}" class="btn btn-xs btn-success btn-deploy">发布</a>
-                {% else %}
+                {% if build_status == FAILURE %}
                 <a href="{% url 'deploy:DeployOptionList' pk=deploy.pk %}" class="btn btn-xs btn-success btn-deploy" disabled="disabled">发布</a>
+                {% else %}
+                <a href="{% url 'deploy:DeployOptionList' pk=deploy.pk %}" class="btn btn-xs btn-success btn-deploy">发布</a>
                 {% endif %}
                 <a href="javascript:void(0)" class="btn btn-xs btn-danger">回滚</a>
             </td>
