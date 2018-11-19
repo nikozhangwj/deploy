@@ -40,5 +40,9 @@ def deploy_file_to_asset(request):
         add_version_list(app_name)
         return JsonResponse(dict(code=200, task=task))
     else:
-        JsonResponse(dict(code=400, error="升级失败,请回滚"))
+        return JsonResponse(dict(code=400, error="升级失败,请回滚"))
 
+
+def get_version_history(request):
+    print(request.GET)
+    return JsonResponse(dict(code=200))
