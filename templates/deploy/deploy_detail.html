@@ -127,6 +127,7 @@
                                         <tbody>
                                         <form class="">
                                             <ul class="list-group" id="deploy-version">
+                                                <input type="hidden" name="app-id" value="{{result.id}}" />
                                                 <li class="list-group-item">1</li>
                                                 <li class="list-group-item">2</li>
                                                 <li class="list-group-item">3</li>
@@ -162,7 +163,10 @@
                 }
             });
         });
-        
+
+        var id = $("#deploy-version input[name='app-id']").val()
+        console.log(id)
+
     });
     
 </script>
