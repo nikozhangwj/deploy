@@ -71,31 +71,39 @@ def create_or_update(queryset):
         if DeployList.objects.filter(app_name=job['name']):
             data = JenkinsWork().collect_job(name=job['name'])
             task = DeployList.objects.filter(app_name=job['name'])
+            if data.get('last_success_build_num', None) is None:
+                last_success_build_num = 0
+            else:
+                last_success_build_num = data.get('last_success_build_num')
             task.update(
                 build_status=data.get('build_status', 'RUNNING'),
                 last_build_time=data.get('last_build_time', None),
                 build_console_output=data.get('build_console_output', ''),
-                last_success_build_num=data.get('last_success_build_num', None),
+                last_success_build_num=last_success_build_num,
                 last_build_num=data.get('last_build_num', None),
                 build_file_path=os.path.join(
                     DeployList.BUILD_FILE_DIR,
                     job['name'],
-                    job['name']+data.get('last_success_build_num', 'FAILURE')+'.jar'
+                    job['name']+str(last_success_build_num)+'.jar'
                 )
             )
         else:
             data = JenkinsWork().collect_job(name=job['name'])
+            if data.get('last_success_build_num', None) is None:
+                last_success_build_num = 0
+            else:
+                last_success_build_num = data.get('last_success_build_num')
             DeployList.objects.create(
                 app_name=data['app_name'],
                 build_status=data.get('build_status', 'RUNNING'),
                 last_build_time=data.get('last_build_time', None),
                 build_console_output=data.get('build_console_output', ''),
-                last_success_build_num=data.get('last_success_build_num', None),
+                last_success_build_num=last_success_build_num,
                 last_build_num=data.get('last_build_num', None),
                 build_file_path=os.path.join(
                     DeployList.BUILD_FILE_DIR,
                     job['name'],
-                    job['name']+data.get('last_success_build_num', 'FAILURE')+'.jar'
+                    job['name']+str(last_success_build_num)+'.jar'
                 )
             )
 
