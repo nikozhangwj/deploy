@@ -133,7 +133,7 @@ def add_version_list(app_name):
     # dl.update(symbol=False)
 
     DeployVersion.objects.create(
-        app_name=app.id,
+        app_name=app,
         version_path=app.deploy_file_path,
         symbol=True
     )
