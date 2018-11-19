@@ -9,7 +9,6 @@
             <th>项目状态</th>
             <th>构建状态</th>
             <th>最后一次构建时间</th>
-            <th>最后一次构建ID</th>
             <th>上一次发布时间</th>
             <th>操作</th>
         </tr>
@@ -23,12 +22,19 @@
             <td>{{deploy.job_status}}</td>
             <td>{{deploy.get_build_status_display}}</td>
             <td>{{deploy.last_build_time}}</td>
-            <td>{{deploy.last_build_num}}</td>
             <td>{{deploy.published_time}}</td>
             <td id="{{deploy.id}}">
-              <a href="javascript:void(0)" class="btn btn-xs btn-info btn-build">构建</a>
-              <a href="{% url 'deploy:DeployOptionList' pk=deploy.pk %}" class="btn btn-xs btn-success btn-deploy">发布</a>
-              <a href="javascript:void(0)" class="btn btn-xs btn-danger">回滚</a>
+                {% if job_status %}
+                <a href="javascript:void(0)" class="btn btn-xs btn-info btn-build">构建</a>
+                {% else %}
+                <a href="javascript:void(0)" class="btn btn-xs btn-info btn-build" disabled="disabled">构建</a>
+                {% endif %}
+                {% if build_status == "SUCCESS" %}
+                <a href="{% url 'deploy:DeployOptionList' pk=deploy.pk %}" class="btn btn-xs btn-success btn-deploy">发布</a>
+                {% else %}
+                <a href="{% url 'deploy:DeployOptionList' pk=deploy.pk %}" class="btn btn-xs btn-success btn-deploy" disabled="disabled">发布</a>
+                {% endif %}
+                <a href="javascript:void(0)" class="btn btn-xs btn-danger">回滚</a>
             </td>
         </tr>
       {% endfor %}
