@@ -4,12 +4,11 @@ from django.db import transaction
 from rest_framework import generics
 from rest_framework.response import Response
 from django.utils import timezone
-from ..models import DeployList
+from ..models import DeployList, add_version_list, turn_build_file_to_deploy
 from assets.models import AdminUser, Asset
 from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 from ..tasks import test_ansible_ping, push_build_file_to_asset_manual
-from ..util import turn_build_file_to_deploy
 
 
 def get_host_admin(request):
@@ -38,7 +37,7 @@ def deploy_file_to_asset(request):
         job = DeployList.objects.get(app_name=app_name)
         job.published_time = timezone.now()
         job.save()
-        print(task)
+        add_version_list(app_name)
         return JsonResponse(dict(code=200, task=task))
     else:
         JsonResponse(dict(code=400, error="升级失败,请回滚"))

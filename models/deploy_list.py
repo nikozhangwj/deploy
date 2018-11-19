@@ -2,6 +2,7 @@
 #
 import uuid
 import os
+import shutil
 from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -108,5 +109,31 @@ def create_or_update(queryset):
             )
 
 
-def add_deploy_file():
-    pass
+def turn_build_file_to_deploy(app_name):
+    app = DeployList.objects.get(app_name=app_name)
+
+    src_file = app.build_file_path
+    dep_file = os.path.join(
+        DeployList.DEPLOY_FILE_DIR,
+        app_name,
+        app_name+datetime.strftime(datetime.now(), "%Y%m%d%H%M")+'.jar'
+    )
+    if os.path.isfile(src_file):
+        shutil.copyfile(src_file, dep_file)
+        app.deploy_file_path = dep_file
+        app.save()
+        return True
+    else:
+        return False
+
+
+def add_version_list(app_name):
+    app = DeployList.objects.get(app_name)
+    dl = DeployVersion.objects.filter(app_id=app.id)
+    dl.update(symbol=False)
+
+    DeployVersion.objects.create(
+        app_id=app.id,
+        version_path=app.deploy_file_path,
+        symbol=True
+    )
