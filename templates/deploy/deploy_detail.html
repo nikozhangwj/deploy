@@ -146,19 +146,24 @@
 {% endblock %}
 {% block custom_foot_js %}
 <script>
-    $('body').on('click', '.btn-deploy', function(){
-        var data = $('.deploy-form').serializeArray();
-        $.get("{% url 'api-deploy:deploy_file_to_asset' %}", data, function(result){
-            if(result.code==200) {
-                console.log(result.task)
-                alert("推送成功,请验证。")
-            }
-            else if(result.code==400) {
-                console.log(result.error)
-                alert(result.error)
-                window.location.reload()
-            }
+    jQuery(document).ready(function(){
+
+        $('body').on('click', '.btn-deploy', function(){
+            var data = $('.deploy-form').serializeArray();
+            $.get("{% url 'api-deploy:deploy_file_to_asset' %}", data, function(result){
+                if(result.code==200) {
+                    console.log(result.task)
+                    alert("推送成功,请验证。")
+                }
+                else if(result.code==400) {
+                    console.log(result.error)
+                    alert(result.error)
+                    window.location.reload()
+                }
+            });
         });
+        
     });
+    
 </script>
 {% endblock %}
