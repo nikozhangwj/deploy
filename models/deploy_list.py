@@ -80,7 +80,7 @@ def create_or_update(queryset):
                 build_file_path=os.path.join(
                     DeployList.BUILD_FILE_DIR,
                     job['name'],
-                    job['name']+data.get('last_success_build_num', 'None')+'.jar'
+                    job['name']+data.get('last_success_build_num', 'FAILURE')+'.jar'
                 )
             )
         else:
@@ -95,7 +95,7 @@ def create_or_update(queryset):
                 build_file_path=os.path.join(
                     DeployList.BUILD_FILE_DIR,
                     job['name'],
-                    job['name']+data.get('last_success_build_num', 'None')+'.jar'
+                    job['name']+data.get('last_success_build_num', 'FAILURE')+'.jar'
                 )
             )
 
