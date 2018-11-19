@@ -3,36 +3,36 @@
 {% load static %}
 {% block content_left_head %}<a href="javascript:void(0)" class="btn btn-xs btn-info btn-update">获取Jenkins最新状态</a>{% endblock %}
 {% block table_head %}
-      <thead>
+    <thead>
         <tr>
-            <th>最后一次构建时间</th>
-            <th>最后一次构建ID</th>
-            <th>上一次发布时间</th>
             <th>APP Name</th>
             <th>项目状态</th>
             <th>构建状态</th>
+            <th>最后一次构建时间</th>
+            <th>最后一次构建ID</th>
+            <th>上一次发布时间</th>
             <th>操作</th>
         </tr>
-      </thead>
+    </thead>
 {% endblock %}
 {% block table_body %}
-      <tbody>
+    <tbody>
       {% for deploy in deploys %}
         <tr>
-          <td>{{deploy.last_build_time}}</td>
-          <td>{{deploy.last_build_num}}</td>
-          <td>{{deploy.published_time}}</td>
-          <td>{{deploy.app_name}}</td>
-          <td>{{deploy.job_status}}</td>
-          <td>{{deploy.get_build_status_display}}</td>
-          <td id="{{deploy.id}}">
+            <td>{{deploy.app_name}}</td>
+            <td>{{deploy.job_status}}</td>
+            <td>{{deploy.get_build_status_display}}</td>
+            <td>{{deploy.last_build_time}}</td>
+            <td>{{deploy.last_build_num}}</td>
+            <td>{{deploy.published_time}}</td>
+            <td id="{{deploy.id}}">
               <a href="javascript:void(0)" class="btn btn-xs btn-info btn-build">构建</a>
               <a href="{% url 'deploy:DeployOptionList' pk=deploy.pk %}" class="btn btn-xs btn-success btn-deploy">发布</a>
               <a href="javascript:void(0)" class="btn btn-xs btn-danger">回滚</a>
-          </td>
+            </td>
         </tr>
       {% endfor %}
-      </tbody>
+    </tbody>
 {% endblock %}
 {% block custom_foot_js %}
 <script>
