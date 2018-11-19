@@ -32,6 +32,7 @@ def deploy_file_to_asset(request):
     except ObjectDoesNotExist as error:
         return JsonResponse(dict(code=400, error=str(error)))
     result = turn_build_file_to_deploy(app_name)
+    print(result)
     task = push_build_file_to_asset_manual(asset, app_name)
     if task[0]['ok']:
         job = DeployList.objects.get(app_name=app_name)
