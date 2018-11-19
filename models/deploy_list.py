@@ -14,6 +14,7 @@ class DeployList(models.Model):
     RUNNING = "RUNNING"
     FAILED = "FAILURE"
     LOG_DIR = os.path.join(settings.PROJECT_DIR, 'logs', 'deploy')
+    BUILD_FILE_DIR = '/deploy/'
     DEPLOY_FILE_DIR = '/deploy/'
     DEST_FILE_DIR = '/data/'
 
@@ -34,6 +35,7 @@ class DeployList(models.Model):
     build_console_output = models.TextField(blank=True)
     last_success_build_num = models.IntegerField(null=True)
     last_build_num = models.IntegerField(null=True)
+    build_file_path = models.CharField(max_length=1024, null=True)
     deploy_file_path = models.CharField(max_length=1024, null=True)
     dest_file_path = models.CharField(max_length=1024, null=True)
     backup_file_path = models.CharField(max_length=1024, null=True)
@@ -56,8 +58,12 @@ def get_deploy_file_path(app_name):
 
 
 def get_dest_file_path(app_name):
-    app = DeployList.objects.get(app_name=app_name)
-    return app.dest_file_path
+    fpath, fname = os.path.split(get_deploy_file_path(app_name))
+    return os.path.join(DeployList.DEST_FILE_DIR, fname)
+
+
+def get_remote_data_path(app_name):
+    return os.path.join(DeployList.DEST_FILE_DIR, app_name, app_name+'.jar')
 
 
 def create_or_update(queryset):
@@ -71,8 +77,11 @@ def create_or_update(queryset):
                 build_console_output=data['build_console_output'],
                 last_success_build_num=data['last_success_build_num'],
                 last_build_num=data['last_build_num'],
-                deploy_file_path=os.path.join(DeployList.DEPLOY_FILE_DIR, job['name'], job['name']+'.jar'),
-                dest_file_path=os.path.join(DeployList.DEST_FILE_DIR, job['name'], job['name']+'.jar')
+                build_file_path=os.path.join(
+                    DeployList.BUILD_FILE_DIR,
+                    job['name'],
+                    job['name']+data['last_success_build_num']+'.jar'
+                )
             )
         else:
             data = JenkinsWork().collect_job(name=job['name'])
@@ -83,6 +92,13 @@ def create_or_update(queryset):
                 build_console_output=data['build_console_output'],
                 last_success_build_num=data['last_success_build_num'],
                 last_build_num=data['last_build_num'],
-                deploy_file_path=os.path.join(DeployList.DEPLOY_FILE_DIR, job['name'], job['name'] + '.jar'),
-                dest_file_path=os.path.join(DeployList.DEST_FILE_DIR, job['name'], job['name'] + '.jar')
+                build_file_path=os.path.join(
+                    DeployList.BUILD_FILE_DIR,
+                    job['name'],
+                    job['name'] + data['last_success_build_num'] + '.jar'
+                )
             )
+
+
+def add_deploy_file():
+    pass
