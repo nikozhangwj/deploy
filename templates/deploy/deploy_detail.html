@@ -165,7 +165,7 @@
         console.log(id)
         $.get("{% url 'api-deploy:get_version_history' %}", {'id':id}, function(result){
             for(x in result){
-                console.log(x[fields])
+                console.log(x)
             }
         });
 
