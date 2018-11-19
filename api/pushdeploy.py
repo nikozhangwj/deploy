@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from django.utils import timezone
 from ..models import DeployList, DeployVersion, add_version_list, turn_build_file_to_deploy
 from assets.models import AdminUser, Asset
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from ..tasks import test_ansible_ping, push_build_file_to_asset_manual
 
@@ -47,4 +47,4 @@ def get_version_history(request):
     app_id = request.GET.get('id')
     version = DeployVersion.objects.filter(app_name_id=app_id)
     print(version)
-    return JsonResponse(dict(code=200))
+    return HttpResponse('hello')
