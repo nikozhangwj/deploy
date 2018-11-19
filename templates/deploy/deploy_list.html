@@ -24,12 +24,12 @@
             <td>{{deploy.last_build_time}}</td>
             <td>{{deploy.published_time}}</td>
             <td id="{{deploy.id}}">
-                {% if job_status == True %}
+                {% if job_status is True %}
                 <a href="javascript:void(0)" class="btn btn-xs btn-info btn-build">构建</a>
                 {% else %}
                 <a href="javascript:void(0)" class="btn btn-xs btn-info btn-build" disabled="disabled">构建</a>
                 {% endif %}
-                {% if build_status == SUCCESS %}
+                {% if build_status = SUCCESS %}
                 <a href="{% url 'deploy:DeployOptionList' pk=deploy.pk %}" class="btn btn-xs btn-success btn-deploy">发布</a>
                 {% else %}
                 <a href="{% url 'deploy:DeployOptionList' pk=deploy.pk %}" class="btn btn-xs btn-success btn-deploy" disabled="disabled">发布</a>
