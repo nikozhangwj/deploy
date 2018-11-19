@@ -129,7 +129,7 @@ def turn_build_file_to_deploy(app_name):
 
 def add_version_list(app_name):
     app = DeployList.objects.get(app_name=app_name)
-    dl = DeployVersion.objects.filter(app_name=app.app_name)
+    dl = DeployVersion.objects.filter(app_name=app.id)
     dl.update(symbol=False)
 
     DeployVersion.objects.create(
