@@ -73,10 +73,10 @@ def create_or_update(queryset):
             task = DeployList.objects.filter(app_name=job['name'])
             task.update(
                 build_status=data.get('build_status', 'RUNNING'),
-                last_build_time=data['last_build_time'],
-                build_console_output=data['build_console_output'],
-                last_success_build_num=data['last_success_build_num'],
-                last_build_num=data['last_build_num'],
+                last_build_time=data.get('last_build_time', None),
+                build_console_output=data.get('build_console_output', ''),
+                last_success_build_num=data.get('last_success_build_num', 000),
+                last_build_num=data.get('last_build_num', None),
                 build_file_path=os.path.join(
                     DeployList.BUILD_FILE_DIR,
                     job['name'],
@@ -88,10 +88,10 @@ def create_or_update(queryset):
             DeployList.objects.create(
                 app_name=data['app_name'],
                 build_status=data.get('build_status', 'RUNNING'),
-                last_build_time=data['last_build_time'],
-                build_console_output=data['build_console_output'],
-                last_success_build_num=data['last_success_build_num'],
-                last_build_num=data['last_build_num'],
+                last_build_time=data.get('last_build_time', None),
+                build_console_output=data.get('build_console_output', ''),
+                last_success_build_num=data.get('last_success_build_num', 000),
+                last_build_num=data.get('last_build_num', None),
                 build_file_path=os.path.join(
                     DeployList.BUILD_FILE_DIR,
                     job['name'],
