@@ -49,7 +49,7 @@ class DeployVersion(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     app_name = models.ForeignKey(DeployList, on_delete=models.PROTECT, null=True, verbose_name=_("App Name"))
     version_path = models.CharField(max_length=1024, null=True)
-    symbol = models.CharField(max_length=64)
+    symbol = models.BooleanField(default=True)
     create_time = models.DateTimeField(auto_now_add=True)
 
 
@@ -133,7 +133,7 @@ def add_version_list(app_name):
     # dl.update(symbol=False)
 
     DeployVersion.objects.create(
-        app_name=app.app_name,
+        app_name=app.id,
         version_path=app.deploy_file_path,
         symbol=True
     )
