@@ -164,7 +164,10 @@
         var id = $("#deploy-version input[name='app-id']").val()
         console.log(id)
         $.get("{% url 'api-deploy:get_version_history' %}", {'id':id}, function(result){
-            console.log($.parseJSON(result))
+            var data = $.parseJSON(result)
+            for(x in data){
+                console.log(x[fields])
+            }
         });
 
     });
