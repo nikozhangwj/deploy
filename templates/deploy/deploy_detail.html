@@ -146,6 +146,7 @@
                 if(result.code==200) {
                     console.log(result.task)
                     alert("推送成功,请验证。")
+                    window.location.reload()
                 }
                 else if(result.code==400) {
                     console.log(result.error)
