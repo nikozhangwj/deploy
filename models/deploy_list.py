@@ -51,6 +51,7 @@ class DeployVersion(models.Model):
     version_path = models.CharField(max_length=1024, null=True)
     symbol = models.BooleanField(default=True)
     create_time = models.DateTimeField(auto_now_add=True)
+    last_success_build_num = models.IntegerField(null=True)
 
 
 def get_deploy_file_path(app_name):
@@ -135,5 +136,6 @@ def add_version_list(app_name):
     DeployVersion.objects.create(
         app_name=app,
         version_path=app.deploy_file_path,
-        symbol=True
+        symbol=True,
+        last_success_build_num=app.last_success_build_num
     )
