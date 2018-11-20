@@ -46,6 +46,9 @@ def deploy_file_to_asset(request):
 
 def get_version_history(request):
     app_id = request.GET.get('id')
-    version = serializers.serialize("json", DeployVersion.objects.filter(app_name_id=app_id).order_by('-create_time'))
+    version = serializers.serialize(
+        "json",
+        DeployVersion.objects.filter(app_name_id=app_id).order_by('-create_time')[:5]
+    )
     print(version)
     return HttpResponse(version)
