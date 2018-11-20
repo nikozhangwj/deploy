@@ -170,8 +170,15 @@
                 console.log(history)
                 let version = history.version_path
                 let symbol = history.symbol
-                console.log(symbol)
-                var html = "<li class='list-group-item'>版本:" + version + "</li>"
+                if(symbol == true)
+                {
+                    var html = "<li class='list-group-item'>版本:" + version + " 当前版本</li>"
+                }
+                else
+                {
+                    var html = "<li class='list-group-item'>版本:" + version + "</li>"
+                }
+                
                 $('#deploy-version').append(html);
             }
         });
