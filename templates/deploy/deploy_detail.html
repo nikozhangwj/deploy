@@ -166,7 +166,7 @@
         $.get("{% url 'api-deploy:get_version_history' %}", {'id':id}, function(result){
             var data = $.parseJSON(result)
             for(x in data){
-                console.log(x)
+                console.log(data[x])
             }
         });
 
