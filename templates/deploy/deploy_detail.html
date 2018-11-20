@@ -168,6 +168,11 @@
             for(x in data){
                 let history = data[x].fields
                 console.log(history)
+                let version = history.version_path
+                let symbol = history.symbol
+                console.log(symbol)
+                var html = "<li class='list-group-item'>版本:" + version + "</li>"
+                $('#deploy-version').append(html);
             }
         });
 
