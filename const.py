@@ -43,5 +43,19 @@ COPY_FILE_TO_TASK = [
             "module": "file",
             "args": "",
         }
+    },
+    {
+        "name": "shell",
+        "action": {
+            "module": "shell",
+            "args": "",
+        }
+    },
+    {
+        "name": "shell",
+        "action": {
+            "module": "shell",
+            "args": "",
+        }
     }
 ]

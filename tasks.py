@@ -60,6 +60,8 @@ def push_build_file_to_asset_util(asset, task_name, app_name):
         get_deploy_file_path(app_name),
         get_remote_data_path(app_name)
     )
+    tasks[4]['action']['args'] = "/etc/init.d/{0} {1}".format(app_name, 'stop')
+    tasks[5]['action']['args'] = "/etc/init.d/{0} {1}".format(app_name, 'start')
     task, create = update_or_create_ansible_task(
         task_name=task_name,
         hosts=hosts, tasks=tasks,
