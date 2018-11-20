@@ -162,7 +162,6 @@
             var data = $.parseJSON(result)
             for(x in data){
                 let history = data[x].fields
-                console.log(history)
                 let version = history.version_path
                 let symbol = history.symbol
                 if(symbol == true)
