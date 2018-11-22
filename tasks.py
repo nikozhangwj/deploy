@@ -11,8 +11,8 @@ from django.utils.translation import ugettext as _
 from .models import get_deploy_file_path, get_dest_file_path, get_remote_data_path
 from . import const
 
-SCRIPT_DIR = os.path.join(settings.BASE_DIR, 'deploy', 'script', 'create_project_dir.sh')
-
+CREATE_PROJECT_SCRIPT_DIR = os.path.join(settings.BASE_DIR, 'deploy', 'script', 'create_project_dir.sh')
+CHOWN_SCRIPT_DIR = os.path.join(settings.BASE_DIR, 'deploy', 'script', 'chown.sh')
 # just for test #
 @shared_task
 def test_ansible_ping(asset):
@@ -50,7 +50,7 @@ def push_build_file_to_asset_util(asset, task_name, app_name):
 
     hosts = [asset.fullname]
     tasks = const.COPY_FILE_TO_TASK
-    tasks[0]['action']['args'] = "creates=/data/{0} {1} {2}".format(app_name, SCRIPT_DIR, app_name)
+    tasks[0]['action']['args'] = "creates=/data/{0} {1} {2}".format(app_name, CREATE_PROJECT_SCRIPT_DIR, app_name)
     tasks[1]['action']['args'] = "src={0} dest={1}".format(
         get_deploy_file_path(app_name),
         get_deploy_file_path(app_name)
@@ -62,6 +62,7 @@ def push_build_file_to_asset_util(asset, task_name, app_name):
     )
     tasks[4]['action']['args'] = "/etc/init.d/{0} {1}".format(app_name, 'stop')
     tasks[5]['action']['args'] = "/etc/init.d/{0} {1}".format(app_name, 'start')
+    tasks[6]['action']['args'] = "{0} {1}".format(CHOWN_SCRIPT_DIR, app_name)
     task, create = update_or_create_ansible_task(
         task_name=task_name,
         hosts=hosts, tasks=tasks,
