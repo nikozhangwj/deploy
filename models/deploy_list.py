@@ -65,7 +65,7 @@ def get_dest_file_path(app_name):
 
 
 def get_remote_data_path(app_name):
-    return os.path.join(DeployList.DEST_FILE_DIR, app_name, 'jar', app_name+'.jar')
+    return os.path.join(DeployList.DEST_FILE_DIR, app_name, app_name+'.jar')
 
 
 def create_or_update(queryset):
