@@ -37,7 +37,7 @@ def deploy_file_to_asset(request):
     if task[1]['dark']:
         job.published_status = False
         job.save()
-        add_version_list(app_name)
+        add_version_list(app_name, version_status=False)
         return JsonResponse(dict(code=400, error=task[1]['dark']))
     elif task[0]['ok']:
         job.published_time = timezone.now()
