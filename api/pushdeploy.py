@@ -33,11 +33,15 @@ def deploy_file_to_asset(request):
         return JsonResponse(dict(code=400, error=str(error)))
     result = turn_build_file_to_deploy(app_name)
     task = push_build_file_to_asset_manual(asset, app_name)
+    job = DeployList.objects.get(app_name=app_name)
     if task[1]['dark']:
+        job.published_status = False
+        job.save()
+        add_version_list(app_name)
         return JsonResponse(dict(code=400, error=task[1]['dark']))
     elif task[0]['ok']:
-        job = DeployList.objects.get(app_name=app_name)
         job.published_time = timezone.now()
+        job.published_status = True
         job.save()
         add_version_list(app_name)
         return JsonResponse(dict(code=200, task=task))

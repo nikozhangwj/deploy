@@ -40,6 +40,7 @@ class DeployList(models.Model):
     deploy_file_path = models.CharField(max_length=1024, null=True)
     dest_file_path = models.CharField(max_length=1024, null=True)
     backup_file_path = models.CharField(max_length=1024, null=True)
+    published_status = models.BooleanField(default=True)
 
     def __str__(self):
         return self.app_name
