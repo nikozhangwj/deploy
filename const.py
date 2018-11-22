@@ -59,9 +59,9 @@ COPY_FILE_TO_TASK = [
         }
     },
     {
-        "name": "shell",
+        "name": "script",
         "action": {
-            "module": "shell",
+            "module": "script",
             "args": "",
         }
     }
