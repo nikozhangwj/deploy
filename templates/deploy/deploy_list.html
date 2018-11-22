@@ -34,7 +34,11 @@
                 {% else %}
                 <a href="{% url 'deploy:DeployOptionList' pk=deploy.pk %}" class="btn btn-xs btn-success btn-deploy">发布</a>
                 {% endif %}
+                {% if deploy.job_status %}
                 <a href="javascript:void(0)" class="btn btn-xs btn-danger">回滚</a>
+                {% else %}
+                <a href="javascript:void(0)" class="btn btn-xs btn-danger" disabled="disabled">回滚</a>
+                {% endif %}
             </td>
         </tr>
       {% endfor %}
