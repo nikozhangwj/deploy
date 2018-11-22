@@ -170,11 +170,11 @@
                 let symbol = history.symbol
                 if(symbol == true)
                 {
-                    var html = "<li class='list-group-item'><b>" + version + " 当前版本</b></li>"
+                    var html = "<li class='list-group-item'><b>" + version + " 当前版本"+history.version_status+"</b></li>"
                 }
                 else
                 {
-                    var html = "<li class='list-group-item'><b>" + version + "</b></li>"
+                    var html = "<li class='list-group-item'><b>" + version + history.version_status + "</b></li>"
                 }
                 
                 $('#deploy-version').append(html);
