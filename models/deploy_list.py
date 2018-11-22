@@ -88,8 +88,8 @@ def create_or_update(queryset):
                 build_file_path=os.path.join(
                     DeployList.BUILD_FILE_DIR,
                     job['name'],
-                    'jar',
-                    job['name']+str(last_success_build_num)+'.jar'
+                    'app',
+                    job['name']+str(last_success_build_num)
                 )
             )
         else:
@@ -98,7 +98,7 @@ def create_or_update(queryset):
                 last_success_build_num = 0
             else:
                 last_success_build_num = data.get('last_success_build_num')
-            os.makedirs(os.path.join(DeployList.DEPLOY_FILE_DIR, job['name'], 'jar'), mode=0o755)
+            os.makedirs(os.path.join(DeployList.DEPLOY_FILE_DIR, job['name'], 'app'), mode=0o755)
             DeployList.objects.create(
                 app_name=data['app_name'],
                 build_status=data.get('build_status', 'RUNNING'),
@@ -109,8 +109,8 @@ def create_or_update(queryset):
                 build_file_path=os.path.join(
                     DeployList.BUILD_FILE_DIR,
                     job['name'],
-                    'jar',
-                    job['name']+str(last_success_build_num)+'.jar'
+                    'app',
+                    job['name']+str(last_success_build_num)
                 )
             )
 
