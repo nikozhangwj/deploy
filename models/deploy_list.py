@@ -65,7 +65,7 @@ def get_dest_file_path(app_name):
 
 
 def get_remote_data_path(app_name):
-    return os.path.join(DeployList.DEST_FILE_DIR, app_name, app_name+'.jar')
+    return os.path.join(DeployList.DEST_FILE_DIR, app_name, 'jar', app_name+'.jar')
 
 
 def create_or_update(queryset):
@@ -86,6 +86,7 @@ def create_or_update(queryset):
                 build_file_path=os.path.join(
                     DeployList.BUILD_FILE_DIR,
                     job['name'],
+                    'jar',
                     job['name']+str(last_success_build_num)+'.jar'
                 )
             )
@@ -95,6 +96,7 @@ def create_or_update(queryset):
                 last_success_build_num = 0
             else:
                 last_success_build_num = data.get('last_success_build_num')
+            os.makedirs(os.path.join(DeployList.DEPLOY_FILE_DIR, job['name'], 'jar'), mode=0o755)
             DeployList.objects.create(
                 app_name=data['app_name'],
                 build_status=data.get('build_status', 'RUNNING'),
@@ -105,6 +107,7 @@ def create_or_update(queryset):
                 build_file_path=os.path.join(
                     DeployList.BUILD_FILE_DIR,
                     job['name'],
+                    'jar',
                     job['name']+str(last_success_build_num)+'.jar'
                 )
             )
@@ -117,6 +120,7 @@ def turn_build_file_to_deploy(app_name):
     dep_file = os.path.join(
         DeployList.DEPLOY_FILE_DIR,
         app_name,
+        'jar',
         app_name+datetime.strftime(datetime.now(), "%Y%m%d%H%M")+'.jar'
     )
     if os.path.isfile(src_file):
