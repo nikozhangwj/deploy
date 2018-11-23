@@ -17,7 +17,6 @@ class DeployIndex(LoginRequiredMixin, ListView):
 def get_jenkins_all(request):
     jobs = JenkinsWork().collect_all_job()
     create_or_update(jobs)
-    print(request.session.items())
     return JsonResponse(dict(code=200))
 
 

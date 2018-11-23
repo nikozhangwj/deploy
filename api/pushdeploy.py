@@ -39,15 +39,13 @@ def deploy_file_to_asset(request):
     check_result = check_asset_file_exist(asset, app_name)
 
     if check_result[0]['ok']:
-        pack_up_deploy_file(app_name)
-        return JsonResponse(dict(code=200))
+        pack_result = pack_up_deploy_file(app_name)
     else:
-        pack_up_deploy_file(app_name, only_jar=False)
-        return JsonResponse(dict(code=400, error='asset file not found!'))
+        pack_result = pack_up_deploy_file(app_name, only_jar=False)
 
-    if not turn_build_file_to_deploy(app_name):
-        return JsonResponse(dict(code=400, error='file not found!'))
-
+    if not pack_result:
+        return JsonResponse(dict(code=400, error='文件打包失败'))
+    return JsonResponse(dict(code=400, error='test mode'))
     task = push_build_file_to_asset_manual(asset, app_name)
     job = DeployList.objects.get(app_name=app_name)
     if task[1]['dark']:
@@ -71,5 +69,4 @@ def get_version_history(request):
         "json",
         DeployVersion.objects.filter(app_name_id=app_id).order_by('-create_time')[:5]
     )
-    print(version)
     return HttpResponse(version)
