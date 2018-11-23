@@ -9,4 +9,4 @@ fi
 
 APP_NAME=$1
 mkdir -p /deploy/${APP_NAME}/{bak,app}
-mkdir -p /data/${APP_NAME}/{conf,lib,tmp,download,static,secrets,bin,config,logs}
+mkdir -p /data/${APP_NAME}/{config,lib,tmp,download,static,secrets,bin,config,logs}
