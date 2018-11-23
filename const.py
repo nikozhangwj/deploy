@@ -15,6 +15,16 @@ TEST_CONN_TASKS = [
     }
 ]
 
+CHECK_FILE_TASK = [
+    {
+        "name": "CHECK FILE EXIST",
+        "action": {
+            "module": "shell",
+            "args": ""
+        }
+    }
+]
+
 COPY_FILE_TO_TASK = [
     {
         "name": "script",

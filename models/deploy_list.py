@@ -122,8 +122,8 @@ def turn_build_file_to_deploy(app_name):
     dep_file = os.path.join(
         DeployList.DEPLOY_FILE_DIR,
         app_name,
-        'jar',
-        app_name+datetime.strftime(datetime.now(), "%Y%m%d%H%M")+'.jar'
+        'app',
+        app_name+datetime.strftime(datetime.now(), "%Y%m%d%H%M")
     )
     if os.path.isfile(src_file):
         shutil.copyfile(src_file, dep_file)

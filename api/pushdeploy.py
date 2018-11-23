@@ -9,7 +9,7 @@ from ..models import DeployList, DeployVersion, add_version_list, turn_build_fil
 from assets.models import AdminUser, Asset
 from django.http import JsonResponse, HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
-from ..tasks import test_ansible_ping, push_build_file_to_asset_manual
+from ..tasks import test_ansible_ping, push_build_file_to_asset_manual, check_asset_file_exist
 
 
 def get_host_admin(request):
@@ -31,7 +31,13 @@ def deploy_file_to_asset(request):
         asset = Asset.objects.get(ip=host)
     except ObjectDoesNotExist as error:
         return JsonResponse(dict(code=400, error=str(error)))
-    result = turn_build_file_to_deploy(app_name)
+
+    check_result = check_asset_file_exist(asset, app_name)
+    print(check_result)
+
+    if not turn_build_file_to_deploy(app_name):
+        return JsonResponse(dict(code=400, error='file not found!'))
+
     task = push_build_file_to_asset_manual(asset, app_name)
     job = DeployList.objects.get(app_name=app_name)
     if task[1]['dark']:

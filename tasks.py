@@ -37,6 +37,31 @@ def test_ansible_ping_util(asset, task_name):
     return result
 
 
+# deploy check file exist #
+@shared_task
+def check_asset_file_exist(asset, app_name):
+    task_name = _("check {0} {1} exist".format(asset, app_name))
+    return check_asset_file_exist_util(asset, app_name, task_name)
+
+
+@shared_task
+def check_asset_file_exist_util(asset, app_name, task_name):
+    from ops.utils import update_or_create_ansible_task
+
+    hosts = [asset.fullname]
+    tasks = const.CHECK_FILE_TASK
+    tasks[0]['action']['args'] = "ls -la /data/{}".format(app_name)
+    task, create = update_or_create_ansible_task(
+        task_name=task_name,
+        hosts=hosts, tasks=tasks,
+        pattern='all',
+        options=const.TASK_OPTIONS, run_as_admin=True, created_by='System'
+    )
+
+    result = task.run()
+
+    return result
+
 # deploy function #
 @shared_task
 def push_build_file_to_asset_manual(asset, app_name):
