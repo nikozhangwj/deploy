@@ -44,8 +44,9 @@ def deploy_file_to_asset(request):
         pack_result = pack_up_deploy_file(app_name, only_jar=False)
 
     if not pack_result:
+        add_version_list(app_name, version_status=False)
         return JsonResponse(dict(code=400, error='文件打包失败'))
-    return JsonResponse(dict(code=400, error='test mode'))
+
     task = push_build_file_to_asset_manual(asset, app_name)
     job = DeployList.objects.get(app_name=app_name)
     if task[1]['dark']:
