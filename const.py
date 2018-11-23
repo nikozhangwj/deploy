@@ -27,44 +27,37 @@ CHECK_FILE_TASK = [
 
 COPY_FILE_TO_TASK = [
     {
-        "name": "script",
+        "name": "create dir script",
         "action": {
             "module": "script",
             "args": ""
         }
     },
     {
-        "name": "copy",
+        "name": "copy tar file to asset",
         "action": {
             "module": "copy",
             "args": ""
         }
     },
     {
-        "name": "file",
+        "name": "remove link",
         "action": {
             "module": "file",
             "args": "",
         }
     },
     {
-        "name": "file",
+        "name": "compress tar script",
+        "action": {
+            "module": "script",
+            "args": ""
+        }
+    },
+    {
+        "name": "create new link",
         "action": {
             "module": "file",
-            "args": "",
-        }
-    },
-    {
-        "name": "shell",
-        "action": {
-            "module": "shell",
-            "args": "",
-        }
-    },
-    {
-        "name": "shell",
-        "action": {
-            "module": "shell",
             "args": "",
         }
     },
@@ -72,6 +65,20 @@ COPY_FILE_TO_TASK = [
         "name": "script",
         "action": {
             "module": "script",
+            "args": "",
+        }
+    },
+    {
+        "name": "shell",
+        "action": {
+            "module": "shell",
+            "args": "",
+        }
+    },
+    {
+        "name": "shell",
+        "action": {
+            "module": "shell",
             "args": "",
         }
     }

@@ -8,11 +8,13 @@ from django.core.cache import cache
 from django.conf import settings
 from django.utils.translation import ugettext as _
 # from assets.models import AdminUser, Asset
-from .models import get_deploy_file_path, get_dest_file_path, get_remote_data_path
+from .models import get_deploy_file_path, get_remote_data_path, get_version, get_deploy_jar_path
 from . import const
 
 CREATE_PROJECT_SCRIPT_DIR = os.path.join(settings.BASE_DIR, 'deploy', 'script', 'create_project_dir.sh')
 CHOWN_SCRIPT_DIR = os.path.join(settings.BASE_DIR, 'deploy', 'script', 'chown.sh')
+COMPRESS_SCRIPT_DIR = os.path.join(settings.BASE_DIR, 'deploy', 'script', 'compress_tar.sh')
+
 # just for test #
 @shared_task
 def test_ansible_ping(asset):
@@ -62,6 +64,7 @@ def check_asset_file_exist_util(asset, app_name, task_name):
 
     return result
 
+
 # deploy function #
 @shared_task
 def push_build_file_to_asset_manual(asset, app_name):
@@ -81,13 +84,14 @@ def push_build_file_to_asset_util(asset, task_name, app_name):
         get_deploy_file_path(app_name)
     )
     tasks[2]['action']['args'] = "path={0} state=absent".format(get_remote_data_path(app_name))
-    tasks[3]['action']['args'] = "src={0} state=link path={1}".format(
-        get_deploy_file_path(app_name),
+    tasks[3]['action']['args'] = "{0}{1} {2}".format(COMPRESS_SCRIPT_DIR, app_name, get_version(app_name))
+    tasks[4]['action']['args'] = "src={0} state=link path={1}".format(
+        get_deploy_jar_path(app_name),
         get_remote_data_path(app_name)
     )
-    tasks[4]['action']['args'] = "/etc/init.d/{0} {1}".format(app_name, 'stop')
-    tasks[5]['action']['args'] = "/etc/init.d/{0} {1}".format(app_name, 'start')
-    tasks[6]['action']['args'] = "{0} {1}".format(CHOWN_SCRIPT_DIR, app_name)
+    tasks[5]['action']['args'] = "{0} {1}".format(CHOWN_SCRIPT_DIR, app_name)
+    tasks[6]['action']['args'] = "/etc/init.d/{0} {1}".format(app_name, 'stop')
+    tasks[7]['action']['args'] = "/etc/init.d/{0} {1}".format(app_name, 'start')
     task, create = update_or_create_ansible_task(
         task_name=task_name,
         hosts=hosts, tasks=tasks,

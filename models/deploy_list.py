@@ -58,7 +58,12 @@ class DeployVersion(models.Model):
 
 def get_deploy_file_path(app_name):
     app = DeployList.objects.get(app_name=app_name)
-    return app.deploy_file_path
+    return app.deploy_file_path + '.tar.gz'
+
+
+def get_deploy_jar_path(app_name):
+    app = DeployList.objects.get(app_name=app_name)
+    return os.path.join(app.deploy_file_path, app_name+'.jar')
 
 
 def get_dest_file_path(app_name):
@@ -68,6 +73,12 @@ def get_dest_file_path(app_name):
 
 def get_remote_data_path(app_name):
     return os.path.join(DeployList.DEST_FILE_DIR, app_name, app_name+'.jar')
+
+
+def get_version(app_name):
+    app = DeployList.objects.get(app_name=app_name)
+    deploy_file_path = app.deploy_file_path
+    return deploy_file_path.split('/')[-1]
 
 
 def create_or_update(queryset):
