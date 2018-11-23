@@ -126,7 +126,7 @@ def turn_build_file_to_deploy(app_name):
         app_name+datetime.strftime(datetime.now(), "%Y%m%d%H%M")
     )
     if os.path.isdir(src_file):
-        shutil.copyfile(src_file, dep_file)
+        shutil.copytree(src_file, dep_file)
         app.deploy_file_path = dep_file
         app.save()
         return True
