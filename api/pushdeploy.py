@@ -35,15 +35,15 @@ def deploy_file_to_asset(request):
 
     if not turn_build_file_to_deploy(app_name):
         return JsonResponse(dict(code=400, error='file not found!'))
-    else:
-        return JsonResponse(dict(code=200, error='file ok'))
 
     check_result = check_asset_file_exist(asset, app_name)
 
     if check_result[0]['ok']:
-        pack_up_deploy_file(asset, app_name)
+        pack_up_deploy_file(app_name)
+        return JsonResponse(dict(code=200))
     else:
-        pack_up_deploy_file(asset, app_name, only_jar=False)
+        pack_up_deploy_file(app_name, only_jar=False)
+        return JsonResponse(dict(code=400, error='asset file not found!'))
 
     if not turn_build_file_to_deploy(app_name):
         return JsonResponse(dict(code=400, error='file not found!'))

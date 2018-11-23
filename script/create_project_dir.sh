@@ -8,5 +8,5 @@ exit 1;
 fi
 
 APP_NAME=$1
-mkdir -p /deploy/${APP_NAME}/{bak,jar}
-mkdir -p /data/${APP_NAME}/{tmp,download,static,secrets,bin,config,logs}
+mkdir -p /deploy/${APP_NAME}/{bak,app}
+mkdir -p /data/${APP_NAME}/{conf,lib,tmp,download,static,secrets,bin,config,logs}
