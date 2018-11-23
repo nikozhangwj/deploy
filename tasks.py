@@ -84,7 +84,7 @@ def push_build_file_to_asset_util(asset, task_name, app_name):
         get_deploy_file_path(app_name)
     )
     tasks[2]['action']['args'] = "path={0} state=absent".format(get_remote_data_path(app_name))
-    tasks[3]['action']['args'] = "{0}{1} {2}".format(COMPRESS_SCRIPT_DIR, app_name, get_version(app_name))
+    tasks[3]['action']['args'] = "{0} {1} {2}".format(COMPRESS_SCRIPT_DIR, app_name, get_version(app_name))
     tasks[4]['action']['args'] = "src={0} state=link path={1}".format(
         get_deploy_jar_path(app_name),
         get_remote_data_path(app_name)
