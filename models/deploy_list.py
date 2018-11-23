@@ -125,7 +125,7 @@ def turn_build_file_to_deploy(app_name):
         'app',
         app_name+datetime.strftime(datetime.now(), "%Y%m%d%H%M")
     )
-    if os.path.isfile(src_file):
+    if os.path.isdir(src_file):
         shutil.copyfile(src_file, dep_file)
         app.deploy_file_path = dep_file
         app.save()
@@ -146,3 +146,4 @@ def add_version_list(app_name, version_status=True):
         last_success_build_num=app.last_success_build_num,
         version_status=version_status
     )
+
