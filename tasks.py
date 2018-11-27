@@ -102,3 +102,15 @@ def push_build_file_to_asset_util(asset, task_name, app_name):
     result = task.run()
 
     return result
+
+
+# backup function #
+@shared_task
+def app_back_up(asset, app_name):
+    task_name = _("backup {0} on {1}".format(app_name, asset.hostname))
+    return app_back_up_util(asset, app_name)
+
+
+@shared_task
+def app_back_up_util(asset, app_name):
+    pass
