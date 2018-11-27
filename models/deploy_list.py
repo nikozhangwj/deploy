@@ -81,6 +81,16 @@ def get_version(app_name):
     return deploy_file_path.split('/')[-1]
 
 
+def get_last_version(app_name):
+    app = DeployList.objects.get(app_name=app_name)
+    version_path = DeployVersion.objects.filter(app_name_id=app.id, symbol=True)
+    try:
+        version = version_path[0].version_path.split('/')[-1]
+    except BaseException as error:
+        return False
+    return version
+
+
 def create_or_update(queryset):
     for job in queryset:
         if DeployList.objects.filter(app_name=job['name']):

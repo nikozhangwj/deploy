@@ -29,7 +29,6 @@ NOW=${DATE}
 else
 NOW=$2
 fi
-echo ${NOW}
 test -d  $PATH || mkdir $PATH
 test -d  ${PATH}/${PROJECT}_backup_${NOW} || mkdir ${PATH}/${PROJECT}_backup_${NOW}
 BACKDIR=${PATH}/${PROJECT}_backup_${NOW}

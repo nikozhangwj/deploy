@@ -8,13 +8,13 @@ from django.core.cache import cache
 from django.conf import settings
 from django.utils.translation import ugettext as _
 # from assets.models import AdminUser, Asset
-from .models import get_deploy_file_path, get_remote_data_path, get_version, get_deploy_jar_path
+from .models import get_deploy_file_path, get_remote_data_path, get_version, get_deploy_jar_path, get_last_version
 from . import const
 
 CREATE_PROJECT_SCRIPT_DIR = os.path.join(settings.BASE_DIR, 'deploy', 'script', 'create_project_dir.sh')
 CHOWN_SCRIPT_DIR = os.path.join(settings.BASE_DIR, 'deploy', 'script', 'chown.sh')
 COMPRESS_SCRIPT_DIR = os.path.join(settings.BASE_DIR, 'deploy', 'script', 'compress_tar.sh')
-
+BACKUP_SCRIPT_DIR = os.path.join(settings.BASE_DIR, 'deploy', 'script', 'backup.sh')
 # just for test #
 @shared_task
 def test_ansible_ping(asset):
@@ -106,11 +106,28 @@ def push_build_file_to_asset_util(asset, task_name, app_name):
 
 # backup function #
 @shared_task
-def app_back_up(asset, app_name):
+def backup_asset_app_file(asset, app_name):
     task_name = _("backup {0} on {1}".format(app_name, asset.hostname))
-    return app_back_up_util(asset, app_name)
+    return backup_asset_app_file_util(asset, task_name, app_name)
 
 
 @shared_task
-def app_back_up_util(asset, app_name):
-    pass
+def backup_asset_app_file_util(asset, task_name, app_name):
+    from ops.utils import update_or_create_ansible_task
+    if get_last_version(app_name):
+        version = get_last_version(app_name)
+    else:
+        return False
+    hosts = [asset.fullname]
+    tasks = const.BACKUP_FILE
+    tasks[0]['action']['args'] = "{1} {2}".format(BACKUP_SCRIPT_DIR, version)
+    task, create = update_or_create_ansible_task(
+        task_name=task_name,
+        hosts=hosts, tasks=tasks,
+        pattern='all',
+        options=const.TASK_OPTIONS, run_as_admin=True, created_by='System'
+    )
+
+    result = task.run()
+
+    return result

@@ -25,6 +25,18 @@ CHECK_FILE_TASK = [
     }
 ]
 
+
+BACKUP_FILE = [
+    {
+        "name": "backup asset app file",
+        "action": {
+            "module": "script",
+            "args": ""
+        }
+    }
+]
+
+
 COPY_FILE_TO_TASK = [
     {
         "name": "create dir script",

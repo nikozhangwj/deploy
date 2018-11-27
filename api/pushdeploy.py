@@ -9,7 +9,7 @@ from ..models import DeployList, DeployVersion, add_version_list, turn_build_fil
 from assets.models import AdminUser, Asset
 from django.http import JsonResponse, HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
-from ..tasks import test_ansible_ping, push_build_file_to_asset_manual, check_asset_file_exist
+from ..tasks import test_ansible_ping, push_build_file_to_asset_manual, check_asset_file_exist, backup_asset_app_file
 from ..util import pack_up_deploy_file
 
 
@@ -32,6 +32,9 @@ def deploy_file_to_asset(request):
         asset = Asset.objects.get(ip=host)
     except ObjectDoesNotExist as error:
         return JsonResponse(dict(code=400, error=str(error)))
+
+    backup_result = backup_asset_app_file(asset, app_name)
+    return backup_result
 
     if not turn_build_file_to_deploy(app_name):
         return JsonResponse(dict(code=400, error='file not found!'))
