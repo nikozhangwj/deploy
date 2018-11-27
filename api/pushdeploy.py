@@ -34,7 +34,7 @@ def deploy_file_to_asset(request):
         return JsonResponse(dict(code=400, error=str(error)))
 
     backup_result = backup_asset_app_file(asset, app_name)
-    return backup_result
+    return JsonResponse(dict(code=400, error=str(backup_result)))
 
     if not turn_build_file_to_deploy(app_name):
         return JsonResponse(dict(code=400, error='file not found!'))
