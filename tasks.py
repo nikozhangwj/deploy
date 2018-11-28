@@ -90,8 +90,8 @@ def push_build_file_to_asset_util(asset, task_name, app_name):
         get_remote_data_path(app_name)
     )
     tasks[5]['action']['args'] = "{0} {1}".format(CHOWN_SCRIPT_DIR, app_name)
-    tasks[6]['action']['args'] = "/etc/init.d/{0} {1}".format(app_name, 'stop')
-    tasks[7]['action']['args'] = "/etc/init.d/{0} {1}".format(app_name, 'start')
+    tasks[6]['action']['args'] = "/etc/init.d/APP {0} {1}".format('stop', app_name)
+    tasks[7]['action']['args'] = "/etc/init.d/APP {0} {1}".format('start', app_name)
     task, create = update_or_create_ansible_task(
         task_name=task_name,
         hosts=hosts, tasks=tasks,
