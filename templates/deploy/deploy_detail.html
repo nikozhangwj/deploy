@@ -154,7 +154,6 @@
         $('body').on('click', '.btn-deploy', function(){
             var data = $('.deploy-form').serializeArray();
             console.log(data)
-            /*
             $.get("{% url 'api-deploy:deploy_file_to_asset' %}", data, function(result){
                 if(result.code==200) {
                     console.log(result.task)
@@ -167,7 +166,6 @@
                     window.location.reload()
                 }
             });
-            */
         });
 
         var id = $("#deploy-version input[name='app-id']").val()
