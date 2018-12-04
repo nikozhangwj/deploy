@@ -32,4 +32,19 @@
 {% endblock %}
 
 {% block custom_foot_js %}
+    <script>
+    function format(item) {
+        var group = item.element.parentElement.label;
+        return group + ':' + item.text;
+    }
+    $(document).ready(function () {
+        $('.select2').select2({
+            allowClear: true
+        });
+        $(".labels").select2({
+            allowClear: true,
+            templateSelection: format
+        });
+    })
+    </script>
 {% endblock %}
