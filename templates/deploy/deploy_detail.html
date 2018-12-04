@@ -103,7 +103,7 @@
                                             <tr>
                                                 <td colspan="2" class="no-borders">
                                                     <label>请输入选择升级的设备IP:</label>
-                                                    <select>
+                                                    <select name="task_host">
                                                         {% for asset in result.bound_asset.all %}
                                                         <option value="{{asset.id}}">{{asset.hostname}}</option>
                                                         {% endfor %}
