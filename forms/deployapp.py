@@ -14,7 +14,11 @@ __all__ = []
 class AppUpdateForm(OrgModelForm):
     class Meta:
         model = DeployList
-        fields = ['app_name']
-        widgets = {}
+        fields = ['app_name', 'bound_asset']
+        widgets = {
+            'bound_asset': forms.SelectMultiple(attrs={
+                'class': 'select2', 'data-placeholder': _('bound_asset')
+            }),
+        }
         labels = {}
         help_texts = {}
