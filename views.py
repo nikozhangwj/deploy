@@ -1,11 +1,14 @@
 from django.shortcuts import render
 from django.utils.translation import ugettext as _
 from django.http import JsonResponse
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
+from django.urls import reverse_lazy
 from .pjenkins.exec_jenkins import JenkinsWork
-# Create your views here.
 from .models.deploy_list import DeployList, create_or_update
+from .forms.deployapp import AppUpdateForm
+# Create your views here.
 
 
 class DeployIndex(LoginRequiredMixin, ListView):
@@ -40,6 +43,21 @@ class DeployOptionList(LoginRequiredMixin, DetailView):
         context = {
             'app': _('deploy'),
             'action': _('Depoly detail')
+        }
+        kwargs.update(context)
+        return super().get_context_data(**kwargs)
+
+
+class DeployUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = DeployList
+    form_class = AppUpdateForm
+    template_name = 'deploy/deploy_update.html'
+    success_url = reverse_lazy('deploy:deploy_list')
+
+    def get_context_data(self, **kwargs):
+        context = {
+            'app': _('Deploy'),
+            'action': _('Update Deploy'),
         }
         kwargs.update(context)
         return super().get_context_data(**kwargs)
