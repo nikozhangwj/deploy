@@ -41,6 +41,7 @@ class DeployList(models.Model):
     dest_file_path = models.CharField(max_length=1024, null=True)
     backup_file_path = models.CharField(max_length=1024, null=True)
     published_status = models.BooleanField(default=True)
+    bound_asset = models.ManyToManyField('assets.Asset', blank=True, verbose_name=_("Assets"))
 
     def __str__(self):
         return self.app_name
