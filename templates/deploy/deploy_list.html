@@ -24,7 +24,7 @@
             <td>{{deploy.get_build_status_display}}</td>
             <td>{{deploy.last_build_time}}</td>
             <td>{{deploy.published_time}}</td>
-            <td>{{deploy.bound_asset}}</td>
+            <td>{{deploy.bound_asset.all}}</td>
             <td id="{{deploy.id}}">
                 {% if deploy.job_status %}
                 <a href="javascript:void(0)" class="btn btn-xs btn-info btn-build">构建</a>
@@ -49,7 +49,6 @@
 {% block custom_foot_js %}
 <script>
 jQuery(document).ready(function(){
-    console.log({{deploys}})
     //flush deploy list
     $('body').on('click', '.btn-update', function(){
         $.get("{% url 'api-deploy:get_jenkins_all' %}", {}, function(){});
