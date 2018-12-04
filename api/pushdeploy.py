@@ -30,7 +30,8 @@ def deploy_file_to_asset(request):
     app_name = request.GET.get('app_name')
     try:
         asset = Asset.objects.get(id=host)
-        return JsonResponse(dict(code=200, msg=asset))
+        print(asset.hostname)
+        return JsonResponse(dict(code=200, msg='ok'))
     except ObjectDoesNotExist as error:
         return JsonResponse(dict(code=400, error=str(error)))
 
