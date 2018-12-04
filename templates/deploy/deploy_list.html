@@ -10,6 +10,7 @@
             <th>构建状态</th>
             <th>最后一次构建时间</th>
             <th>上一次发布时间</th>
+            <th>资产</th>
             <th>操作</th>
         </tr>
     </thead>
@@ -23,6 +24,7 @@
             <td>{{deploy.get_build_status_display}}</td>
             <td>{{deploy.last_build_time}}</td>
             <td>{{deploy.published_time}}</td>
+            <td>{{deploy.bound_asset}}</td>
             <td id="{{deploy.id}}">
                 {% if deploy.job_status %}
                 <a href="javascript:void(0)" class="btn btn-xs btn-info btn-build">构建</a>
