@@ -102,7 +102,12 @@
                                         <form class="deploy-form">
                                             <tr>
                                                 <td colspan="2" class="no-borders">
-                                                    <label>请输入需要升级的设备IP:</label>
+                                                    <label>请输入选择升级的设备IP:</label>
+                                                    <select>
+                                                        {% for asset in result.bound_asset.all %}
+                                                        <option value="{{asset.id}}">{{asset.hostname}}</option>
+                                                        {% endfor %}
+                                                    </select>
                                                     <input type="text-center" name="task_host"/>
                                                     <input type="hidden" name="app_name" value="{{ result.app_name }}" />
                                                 </td> 
