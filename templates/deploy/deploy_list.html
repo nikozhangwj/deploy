@@ -49,7 +49,7 @@
 {% block custom_foot_js %}
 <script>
 jQuery(document).ready(function(){
-    console.log(deploys)
+    console.log({{deploys}})
     //flush deploy list
     $('body').on('click', '.btn-update', function(){
         $.get("{% url 'api-deploy:get_jenkins_all' %}", {}, function(){});
