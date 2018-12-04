@@ -30,12 +30,11 @@ def deploy_file_to_asset(request):
     app_name = request.GET.get('app_name')
     try:
         asset = Asset.objects.get(id=host)
-        print(asset.hostname)
-        return JsonResponse(dict(code=200, msg='ok'))
     except ObjectDoesNotExist as error:
         return JsonResponse(dict(code=400, error=str(error)))
 
     backup_result = backup_asset_app_file(asset, app_name)
+    return JsonResponse(dict(code=200, error=str(backup_result)))
 
     if not turn_build_file_to_deploy(app_name):
         return JsonResponse(dict(code=400, error='file not found!'))

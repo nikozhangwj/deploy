@@ -120,7 +120,7 @@ def backup_asset_app_file_util(asset, task_name, app_name):
         return False
     hosts = [asset.fullname]
     tasks = const.BACKUP_FILE
-    tasks[0]['action']['args'] = "{0} {1}".format(BACKUP_SCRIPT_DIR, version)
+    tasks[0]['action']['args'] = "{0} {1} {2}".format(BACKUP_SCRIPT_DIR, app_name, version)
     task, create = update_or_create_ansible_task(
         task_name=task_name,
         hosts=hosts, tasks=tasks,
