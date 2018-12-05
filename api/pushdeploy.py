@@ -13,6 +13,7 @@ from ..tasks import test_ansible_ping, push_build_file_to_asset_manual, check_as
 from ..util import pack_up_deploy_file
 
 
+# just for test
 def get_host_admin(request):
     print(request.GET)
     host = request.GET.get('task_host')
@@ -26,6 +27,7 @@ def get_host_admin(request):
 
 
 def deploy_file_to_asset(request):
+    # get information from request and get target host from DB
     host = request.GET.get('task_host')
     app_name = request.GET.get('app_name')
     try:
@@ -33,15 +35,16 @@ def deploy_file_to_asset(request):
     except ObjectDoesNotExist as error:
         return JsonResponse(dict(code=400, error=str(error)))
 
+    # backup old version on remote host and return result
     backup_result = backup_asset_app_file(asset, app_name)
     if not backup_result:
         return JsonResponse(dict(code=400, error='Backup Failed!'))
-
+    # rename build file and return result
     if not turn_build_file_to_deploy(app_name):
         return JsonResponse(dict(code=400, error='file not found!'))
 
+    # check remote host is already have target APP
     check_result = check_asset_file_exist(asset, app_name)
-
     if check_result[0]['ok']:
         pack_result = pack_up_deploy_file(app_name)
     else:
@@ -51,6 +54,7 @@ def deploy_file_to_asset(request):
         add_version_list(app_name, version_status=False)
         return JsonResponse(dict(code=400, error='文件打包失败'))
 
+    # use ansible to push APP to remote host
     task = push_build_file_to_asset_manual(asset, app_name)
     job = DeployList.objects.get(app_name=app_name)
     if task[1]['dark']:
@@ -68,6 +72,7 @@ def deploy_file_to_asset(request):
         return JsonResponse(dict(code=400, error="升级失败,请回滚"))
 
 
+# ajax get version list object
 def get_version_history(request):
     app_id = request.GET.get('id')
     version = serializers.serialize(

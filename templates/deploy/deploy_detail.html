@@ -114,7 +114,7 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="2" class="no-borders">
-                                                    <button type="button" class="btn btn-primary btn-sm btn-deploy" id="">{% trans 'Confirm' %}</button>
+                                                    <button type="button" class="btn btn-primary btn-sm btn-deploy-per" id="">{% trans 'Confirm' %}</button>
                                                 </td>
                                             </tr>
                                         </form>
@@ -149,6 +149,20 @@
 <script>
     jQuery(document).ready(function(){
 
+        $('body').on('click', '.btn-deploy-per', function(){
+            swal({
+                title: "{% trans 'Are you sure?' %}",
+                text: "{% trans 'This will update APP !!!' %}",
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonText: "{% trans 'Cancel' %}",
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "{% trans 'Confirm' %}",
+                closeOnConfirm: false
+                 }, function(){
+                    alert("yes")
+             });
+        });
 
 
         $('body').on('click', '.btn-deploy', function(){
