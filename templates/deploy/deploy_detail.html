@@ -152,7 +152,7 @@
         $('body').on('click', '.btn-deploy-per', function(){
             swal({
                 title: "{% trans 'Are you sure?' %}",
-                text: "{% trans 'This will update APP !!!' %}",
+                text: "请确保升级前的准备工作已经完成",
                 type: "warning",
                 showCancelButton: true,
                 cancelButtonText: "{% trans 'Cancel' %}",
@@ -160,8 +160,23 @@
                 confirmButtonText: "{% trans 'Confirm' %}",
                 closeOnConfirm: false
                  }, function(){
-                    alert("yes")
-             });
+
+                    var data = $('.deploy-form').serializeArray();
+                    console.log(data)
+                    $.get("{% url 'api-deploy:deploy_file_to_asset' %}", data, function(result){
+                        if(result.code==200) {
+                            console.log(result.task)
+                            alert("推送成功,请验证。")
+                            window.location.reload()
+                        }
+                        else if(result.code==400) {
+                            console.log(result.error)
+                            alert(result.error)
+                            window.location.reload()
+                        }
+                    });
+
+            });
         });
 
 
