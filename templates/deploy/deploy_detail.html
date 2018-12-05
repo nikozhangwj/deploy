@@ -205,6 +205,7 @@
                 let history = data[x].fields
                 let version = history.version_path
                 let symbol = history.symbol
+                console.log(version.split("/"))
                 if(symbol == true)
                 {
                     var html = "<li class='list-group-item'><b>" + version + " 当前版本"+history.version_status+"</b></li>"
