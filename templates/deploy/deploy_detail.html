@@ -208,11 +208,11 @@
                 console.log(version.split("/")[4])
                 if(symbol == true)
                 {
-                    var html = "<li class='list-group-item'><b>" + version + " 当前版本"+history.version_status+"</b></li>"
+                    var html = "<li class='list-group-item'><b>" + version.split("/")[4] + " 当前版本"+history.version_status+"</b></li>"
                 }
                 else
                 {
-                    var html = "<li class='list-group-item'><b>" + version + "\n" +history.version_status + "</b></li>"
+                    var html = "<li class='list-group-item'><b>" + version.split("/")[4] + "\n" +history.version_status + "</b></li>"
                 }
                 
                 $('#deploy-version').append(html);
