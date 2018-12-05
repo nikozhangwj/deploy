@@ -137,8 +137,22 @@ def create_or_update(queryset):
             )
 
 
+def is_same_build(app_name):
+    app = DeployList.objects.get(app_name=app_name)
+    version = DeployVersion.objects.filter(app_name=app.id, symbol=True).order_by('-create_time')[:1]
+    if version[0].last_success_build_num == app.last_success_build_num:
+        return True
+    elif version[0].last_success_build_num != app.last_success_build_num:
+        return False
+    else:
+        return False
+
+
 def turn_build_file_to_deploy(app_name):
     app = DeployList.objects.get(app_name=app_name)
+
+    if is_same_build(app_name):
+        return True
 
     src_file = app.build_file_path
     dep_file = os.path.join(
@@ -160,6 +174,16 @@ def add_version_list(app_name, version_status=True):
     app = DeployList.objects.get(app_name=app_name)
     dl = DeployVersion.objects.filter(app_name=app.id)
     dl.update(symbol=False)
+
+    try:
+        version = DeployVersion.objects.get(version_path=app.deploy_file_path)
+        version.version_status = version_status
+        version.symbol = True
+        version.save()
+        return True
+    except BaseException as error:
+        print(error)
+        pass
 
     DeployVersion.objects.create(
         app_name=app,
