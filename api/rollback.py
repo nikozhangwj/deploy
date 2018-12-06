@@ -18,7 +18,7 @@ def rollback(request):
     try:
         asset = Asset.objects.get(id=task_host)
     except ObjectDoesNotExist as error:
-        return JsonResponse(dict(code=200, error=str(error)))
+        return JsonResponse(dict(code=400, error=str(error)))
     version = request.GET.get('version')
     app_name = request.GET.get('app_name')
     # result = rollback_asset_app_version_manual(app_name, version)
