@@ -162,8 +162,8 @@
             function(){
                 $.get("{% url 'api-deploy:rollback' %}", data, function(result){
                     console.log(result)
-                };
-            };
+                });
+            });
         });
     });
 
