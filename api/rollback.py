@@ -14,13 +14,13 @@ from ..util import pack_up_deploy_file
 
 
 def rollback(request):
-    ip = request.POST.get['ip']
+    task_host = request.GET.get['task_host']
     try:
-        asset = Asset.objects.get(ip=ip)
+        asset = Asset.objects.get(id=task_host)
     except ObjectDoesNotExist as error:
         return JsonResponse(dict(code=200, error=str(error)))
-    version = request.POST.get['version']
-    app_name = request.POST.get['app_name']
-    result = rollback_asset_app_version_manual(app_name, version)
-    print(result)
-    return JsonResponse(dict(code=200, msg=''))
+    version = request.GET.get['version']
+    app_name = request.GET.get['app_name']
+    # result = rollback_asset_app_version_manual(app_name, version)
+
+    return JsonResponse(dict(code=200, msg='ROLLBACK'))

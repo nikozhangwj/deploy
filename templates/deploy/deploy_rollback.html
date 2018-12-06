@@ -129,6 +129,7 @@
                                                     <button type="button" class="btn btn-primary btn-sm btn-rollback-per" id="">{% trans 'Confirm' %}</button>
                                                 </td>
                                             </tr>
+                                            {% csrf_token %}
                                         </form>
                                         </tbody>
                                     </table>
@@ -148,6 +149,21 @@
         $('body').on('click', '.btn-rollback-per', function(){
             var data = $('.rollback-form').serializeArray();
             console.log(data)
+            swal({
+                title: "{% trans 'Are you sure?' %}",
+                text: "你将进行版本回滚操作",
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonText: "{% trans 'Cancel' %}",
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "{% trans 'Confirm' %}",
+                closeOnConfirm: false
+                 },
+            function(){
+                $.get("{% url 'api-deploy:rollback' %}", data, function(result){
+                    console.log(result)
+                };
+            };
         });
     });
 
