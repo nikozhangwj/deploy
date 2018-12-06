@@ -113,7 +113,7 @@
                                                 <td>
                                                     <!--<input type="text-center" name="task_host"/>-->
                                                     <input type="hidden" name="app_name" value="{{ result.app_name }}" />
-                                                    <label>请选择需要回滚的版本:</label>
+                                                    <label>请选择需要回滚的版本:</label><br>
                                                     {% for v in version %}
                                                     {% if v.symbol %}
                                                     <input type="radio" name="version" checked="checked" value="{{v.version}}"/>:{{v.version}} <br>
@@ -160,6 +160,25 @@
                     var data = $('.rollback-form').serializeArray();
                     console.log(data)
                     });
+
+            });
+        });
+
+
+        $('body').on('click', '.btn-deploy', function(){
+            var data = $('.deploy-form').serializeArray();
+            console.log(data)
+            $.get("{% url 'api-deploy:deploy_file_to_asset' %}", data, function(result){
+                if(result.code==200) {
+                    console.log(result.task)
+                    alert("推送成功,请验证。")
+                    window.location.reload()
+                }
+                else if(result.code==400) {
+                    console.log(result.error)
+                    alert(result.error)
+                    window.location.reload()
+                }
             });
         });
     });
