@@ -137,3 +137,13 @@ def backup_asset_app_file_util(asset, task_name, app_name):
         return False
 
     return result
+
+
+# rollback version
+def rollback_asset_app_version_manual(app_name, version):
+    task_name = _("backup {0} on {1}".format(app_name, asset.hostname))
+    return rollback_asset_app_version_util(app_name, version)
+
+
+def rollback_asset_app_version_util(app_name, version):
+    pass

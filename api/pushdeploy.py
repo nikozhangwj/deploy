@@ -1,6 +1,5 @@
 # encoding: utf-8
 
-from time import sleep
 from django.db import transaction
 from rest_framework import generics
 from rest_framework.response import Response
@@ -38,8 +37,6 @@ def deploy_file_to_asset(request):
 
     # backup old version on remote host and return result
     backup_result = backup_asset_app_file(asset, app_name)
-    print(backup_result)
-    sleep(5)
     if not backup_result:
         return JsonResponse(dict(code=400, error='Backup Failed!'))
     # rename build file and return result

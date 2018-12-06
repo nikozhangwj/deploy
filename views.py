@@ -61,3 +61,18 @@ class DeployUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         }
         kwargs.update(context)
         return super().get_context_data(**kwargs)
+
+
+class DeployRollbackView(LoginRequiredMixin, DetailView):
+    model = DeployList
+    template_name = 'deploy/deploy_rollback.html'
+    context_object_name = 'result'
+    object = None
+
+    def get_context_data(self, **kwargs):
+        context = {
+            'app': _('deploy'),
+            'action': _('Rollback')
+        }
+        kwargs.update(context)
+        return super().get_context_data(**kwargs)
