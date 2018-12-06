@@ -163,15 +163,17 @@
                     $.get("{% url 'api-deploy:rollback' %}", data, function(result){
                         if(result.code==200) {
                             console.log(result)
+
                             swal({
                                 title: "",
                                 text: "回滚完成,请验证。",
                                 type: "success",
                                 confirmButtonText: '确认',
                                 confirmButtonColor: '#4cd964',
-                            })
+                            },function(){window.location.reload()})
 
                         }
+
                         else if(result.code==400) {
                             console.log(result.error)
                             alert(result.error)
@@ -181,9 +183,9 @@
                                 type: "error",
                                 confirmButtonText: '确认',
                                 confirmButtonColor: '#4cd964',
-                            })
-                            window.location.reload()
+                            },function(){window.location.reload()})
                         }
+
                     });
                 });
         });
