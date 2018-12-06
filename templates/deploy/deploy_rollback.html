@@ -99,7 +99,7 @@
                                 <div class="panel-body">
                                     <table class="table group_edit" id="table-clusters">
                                         <tbody>
-                                        <form class="deploy-form">
+                                        <form class="rollback-form">
                                             <tr>
                                                 <td colspan="2" class="no-borders">
                                                     <label>请选择需要回滚的服务器:</label><br>
@@ -157,7 +157,7 @@
                 confirmButtonText: "{% trans 'Confirm' %}",
                 closeOnConfirm: false
                  }, function(){
-                    var data = $('.deploy-form').serializeArray();
+                    var data = $('.rollback-form').serializeArray();
                     console.log(data)
                     });
             });
