@@ -110,10 +110,9 @@
                                                     </select>
                                                     <!--<input type="text-center" name="task_host"/>-->
                                                     <input type="hidden" name="app_name" value="{{ result.app_name }}" />
-                                                    <ul class="list-group" id="deploy-version">
-                                                        <input type="hidden" name="app-id" value="{{result.id}}" />
-                                                        {{version}}:<input type="radio" checked="checked" value="{{version}}"/>
-                                                    </ul>
+                                                    {% for v in version %}
+                                                    <input type="radio" checked="checked" value="{{version}}"/>
+                                                    {% endfor %}
                                                 </td>
                                             </tr>
                                             <tr>
