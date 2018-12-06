@@ -6,6 +6,7 @@ import shutil
 from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.core.exceptions import ObjectDoesNotExist
 from ..pjenkins.exec_jenkins import JenkinsWork
 from datetime import datetime
 
@@ -58,6 +59,7 @@ class DeployVersion(models.Model):
     last_success_build_num = models.IntegerField(null=True)
     version_status = models.BooleanField(default=True)
     version = models.CharField(max_length=1024, null=True)
+    backup_file_path = models.CharField(max_length=1024, null=True)
 
 
 def get_deploy_file_path(app_name):
@@ -194,7 +196,11 @@ def add_version_list(app_name, version_status=True):
         symbol=True,
         last_success_build_num=app.last_success_build_num,
         version_status=version_status,
-        version=app.deploy_file_path.split('/')[-1]
+        version=app.deploy_file_path.split('/')[-1],
+        backup_file_path=os.path.join(
+            DeployList.BACKUP_DIR.format(app_name),
+            DeployList.BACKUP_FILE_DIR.format(APP_NAME=app_name, VERSION=app.deploy_file_path.split('/')[-1])
+        )
     )
 
 
@@ -209,3 +215,19 @@ def save_backup_path(app_name, version):
     )
     app.save()
     return True
+
+
+def get_app_id(app_name):
+    try:
+        app = DeployList.objects.get(app_name=app_name)
+    except ObjectDoesNotExist as error:
+        return False
+    return app.id
+
+
+def get_backup_path(app_name, version):
+    try:
+        data = DeployVersion.objects.get(app_name=get_app_id(app_name), version=version)
+    except ObjectDoesNotExist as error:
+        return False
+    return data.backup_file_path

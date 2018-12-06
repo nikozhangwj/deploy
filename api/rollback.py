@@ -21,6 +21,6 @@ def rollback(request):
         return JsonResponse(dict(code=400, error=str(error)))
     version = request.GET.get('version')
     app_name = request.GET.get('app_name')
-    # result = rollback_asset_app_version_manual(app_name, version)
+    result = rollback_asset_app_version_manual(asset, app_name, version)
 
     return JsonResponse(dict(code=200, msg='ROLLBACK'))
