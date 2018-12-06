@@ -102,7 +102,7 @@
                                         <form class="deploy-form">
                                             <tr>
                                                 <td colspan="2" class="no-borders">
-                                                    <label>请选择需要回滚的服务器:</label>
+                                                    <label>请选择需要回滚的服务器:</label><br>
                                                     <select name="task_host">
                                                         {% for asset in result.bound_asset.all %}
                                                         <option value="{{asset.id}}">{{asset.hostname}}</option>
@@ -113,6 +113,7 @@
                                                 <td>
                                                     <!--<input type="text-center" name="task_host"/>-->
                                                     <input type="hidden" name="app_name" value="{{ result.app_name }}" />
+                                                    <label>请选择需要回滚的版本:</label>
                                                     {% for v in version %}
                                                     {% if v.symbol %}
                                                     <input type="radio" name="version" checked="checked" value="{{v.version}}"/>:{{v.version}} <br>
@@ -145,10 +146,10 @@
 <script>
     jQuery(document).ready(function(){
 
-        $('body').on('click', '.btn-deploy-per', function(){
+        $('body').on('click', '.btn-rollback-per', function(){
             swal({
                 title: "{% trans 'Are you sure?' %}",
-                text: "请确保升级前的准备工作已经完成",
+                text: "你将进行版本回滚!!",
                 type: "warning",
                 showCancelButton: true,
                 cancelButtonText: "{% trans 'Cancel' %}",
@@ -156,40 +157,9 @@
                 confirmButtonText: "{% trans 'Confirm' %}",
                 closeOnConfirm: false
                  }, function(){
-
                     var data = $('.deploy-form').serializeArray();
                     console.log(data)
-                    $.get("{% url 'api-deploy:deploy_file_to_asset' %}", data, function(result){
-                        if(result.code==200) {
-                            console.log(result.task)
-                            alert("推送成功,请验证。")
-                            window.location.reload()
-                        }
-                        else if(result.code==400) {
-                            console.log(result.error)
-                            alert(result.error)
-                            window.location.reload()
-                        }
                     });
-
-            });
-        });
-
-
-        $('body').on('click', '.btn-deploy', function(){
-            var data = $('.deploy-form').serializeArray();
-            console.log(data)
-            $.get("{% url 'api-deploy:deploy_file_to_asset' %}", data, function(result){
-                if(result.code==200) {
-                    console.log(result.task)
-                    alert("推送成功,请验证。")
-                    window.location.reload()
-                }
-                else if(result.code==400) {
-                    console.log(result.error)
-                    alert(result.error)
-                    window.location.reload()
-                }
             });
         });
     });
