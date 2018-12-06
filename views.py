@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from .pjenkins.exec_jenkins import JenkinsWork
-from .models.deploy_list import DeployList, create_or_update
+from .models.deploy_list import DeployList, create_or_update, DeployVersion
 from .forms.deployapp import AppUpdateForm
 # Create your views here.
 
@@ -70,9 +70,11 @@ class DeployRollbackView(LoginRequiredMixin, DetailView):
     object = None
 
     def get_context_data(self, **kwargs):
+        print(self.request)
         context = {
             'app': _('deploy'),
-            'action': _('Rollback')
+            'action': _('Rollback'),
+            # 'version': DeployVersion.objects.filter(app_name_id=self.request).order_by('-create_time')[:5]
         }
         kwargs.update(context)
         return super().get_context_data(**kwargs)
