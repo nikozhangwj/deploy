@@ -70,12 +70,10 @@ class DeployRollbackView(LoginRequiredMixin, DetailView):
     object = None
 
     def get_context_data(self, **kwargs):
-        print(type(self.object))
-        print(self.object.id)
         context = {
             'app': _('deploy'),
             'action': _('Rollback'),
-            # 'version': DeployVersion.objects.filter(app_name_id=self.request).order_by('-create_time')[:5]
+            'version': DeployVersion.objects.filter(app_name_id=self.object.id).order_by('-create_time')[:5]
         }
         kwargs.update(context)
         return super().get_context_data(**kwargs)

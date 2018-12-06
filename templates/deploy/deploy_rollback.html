@@ -112,6 +112,7 @@
                                                     <input type="hidden" name="app_name" value="{{ result.app_name }}" />
                                                     <ul class="list-group" id="deploy-version">
                                                         <input type="hidden" name="app-id" value="{{result.id}}" />
+                                                        {{result.version}}:<input type="radio" checked="checked" value="{{result.version}}"/>
                                                     </ul>
                                                 </td>
                                             </tr>
@@ -184,28 +185,6 @@
                 }
             });
         });
-
-        var id = $("#deploy-version input[name='app-id']").val()
-        console.log(id)
-        $.get("{% url 'api-deploy:get_version_history' %}", {'id':id}, function(result){
-            var data = $.parseJSON(result)
-            for(x in data){
-                let history = data[x].fields
-                let version = history.version_path
-                let symbol = history.symbol
-                if(symbol == true)
-                {
-                    var html = "<input type="radio" value='"+ version + "'/><b>" + version.split("/")[4] + "\n" +history.version_status + "</b>"
-                }
-                else
-                {
-                    var html = "<input type="radio" value='"+ version + "'/><b>" + version.split("/")[4] + "\n" +history.version_status + "</b>"
-                }
-
-                $('#deploy-version').append(html);
-            }
-        });
-
     });
 
 </script>
