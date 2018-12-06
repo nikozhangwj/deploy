@@ -159,11 +159,31 @@
                 confirmButtonText: "{% trans 'Confirm' %}",
                 closeOnConfirm: false
                  },
-            function(){
-                $.get("{% url 'api-deploy:rollback' %}", data, function(result){
-                    console.log(result)
+                function(){
+                    $.get("{% url 'api-deploy:rollback' %}", data, function(result){
+                        if(result.code==200) {
+                            console.log(result)
+                            swal({
+                                text: "回滚完成,请验证。",
+                                type: "success",
+                                confirmButtonText: '确认',
+                                confirmButtonColor: '#4cd964',
+                            })
+                            window.location.reload()
+                        }
+                        else if(result.code==400) {
+                            console.log(result.error)
+                            alert(result.error)
+                            swal({
+                                text: "回滚失败！请手工修复！",
+                                type: "error",
+                                confirmButtonText: '确认',
+                                confirmButtonColor: '#4cd964',
+                            })
+                            window.location.reload()
+                        }
+                    });
                 });
-            });
         });
     });
 
