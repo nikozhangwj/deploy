@@ -70,7 +70,7 @@ class DeployRollbackView(LoginRequiredMixin, DetailView):
     object = None
 
     def get_context_data(self, **kwargs):
-        print(self.request.GET)
+        print(self.object)
         context = {
             'app': _('deploy'),
             'action': _('Rollback'),
