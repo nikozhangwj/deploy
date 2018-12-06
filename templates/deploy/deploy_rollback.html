@@ -111,7 +111,7 @@
                                                     <!--<input type="text-center" name="task_host"/>-->
                                                     <input type="hidden" name="app_name" value="{{ result.app_name }}" />
                                                     {% for v in version %}
-                                                    <input type="radio" checked="checked" value="{{version}}"/>
+                                                    <input type="radio" name="version" value="{{v.version}}"/>
                                                     {% endfor %}
                                                 </td>
                                             </tr>
