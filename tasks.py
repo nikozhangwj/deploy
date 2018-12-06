@@ -130,7 +130,7 @@ def backup_asset_app_file_util(asset, task_name, app_name):
 
     result = task.run()
 
-    if result[0]['dark']:
+    if result[1]['dark']:
         return False
 
     if not save_backup_path(app_name, version):
