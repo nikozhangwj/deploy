@@ -102,7 +102,7 @@
                                         <form class="deploy-form">
                                             <tr>
                                                 <td colspan="2" class="no-borders">
-                                                    <label>请选择需要升级的服务器:</label>
+                                                    <label>请选择需要回滚的服务器:</label>
                                                     <select name="task_host">
                                                         {% for asset in result.bound_asset.all %}
                                                         <option value="{{asset.id}}">{{asset.hostname}}</option>
@@ -110,31 +110,19 @@
                                                     </select>
                                                     <!--<input type="text-center" name="task_host"/>-->
                                                     <input type="hidden" name="app_name" value="{{ result.app_name }}" />
+                                                    <ul class="list-group" id="deploy-version">
+                                                        <input type="hidden" name="app-id" value="{{result.id}}" />
+                                                    </ul>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td colspan="2" class="no-borders">
-                                                    <button type="button" class="btn btn-primary btn-sm btn-deploy-per" id="">{% trans 'Confirm' %}</button>
+                                                    <button type="button" class="btn btn-primary btn-sm btn-rollback-per" id="">{% trans 'Confirm' %}</button>
                                                 </td>
                                             </tr>
                                         </form>
                                         </tbody>
                                     </table>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                        <div class="col-sm-4" style="padding-left: 0;padding-right: 0">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading">
-                                    <i class="fa fa-info-circle"></i> 历史发布版本
-                                </div>
-                                <div class="panel-body">
-                                    <ul class="list-group" id="deploy-version">
-                                        <input type="hidden" name="app-id" value="{{result.id}}" />
-                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -207,11 +195,11 @@
                 let symbol = history.symbol
                 if(symbol == true)
                 {
-                    var html = "<li class='list-group-item'><b>" + version.split("/")[4] + history.version_status + " 当前版本" + "</b></li>"
+                    var html = "<input type="radio" checked="checked" value="+ version+ "/><b>" + version.split("/")[4] + history.version_status + " 当前版本" + "</b>"
                 }
                 else
                 {
-                    var html = "<li class='list-group-item'><b>" + version.split("/")[4] + "\n" +history.version_status + "</b></li>"
+                    var html = "<input type="radio" value="+ version + "/><b>" + version.split("/")[4] + "\n" +history.version_status + "</b>"
                 }
 
                 $('#deploy-version').append(html);
