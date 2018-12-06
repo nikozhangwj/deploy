@@ -8,7 +8,7 @@ from django.core.cache import cache
 from django.conf import settings
 from django.utils.translation import ugettext as _
 # from assets.models import AdminUser, Asset
-from .models import get_deploy_file_path, get_remote_data_path, get_version, get_deploy_jar_path, get_last_version
+from .models import get_deploy_file_path, get_remote_data_path, get_version, get_deploy_jar_path, get_last_version, save_backup_path
 from . import const
 
 CREATE_PROJECT_SCRIPT_DIR = os.path.join(settings.BASE_DIR, 'deploy', 'script', 'create_project_dir.sh')
@@ -129,5 +129,11 @@ def backup_asset_app_file_util(asset, task_name, app_name):
     )
 
     result = task.run()
+
+    if result[0]['dark']:
+        return False
+
+    if not save_backup_path(app_name, version):
+        return False
 
     return result

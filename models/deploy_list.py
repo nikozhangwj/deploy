@@ -18,6 +18,8 @@ class DeployList(models.Model):
     BUILD_FILE_DIR = '/deploy/'
     DEPLOY_FILE_DIR = '/deploy/'
     DEST_FILE_DIR = '/data/'
+    BACKUP_DIR = '/deploy/{0}/bak/'
+    BACKUP_FILE_DIR = '{APP_NAME}_backup_{VERSION}/{APP_NAME}_full_backup_{VERSION}.tar.gz'
 
     STATUS_CHOICES = (
         (SUCCESS, SUCCESS),
@@ -193,3 +195,15 @@ def add_version_list(app_name, version_status=True):
         version_status=version_status
     )
 
+
+def save_backup_path(app_name, version):
+    try:
+        app = DeployList.objects.get(app_name=app_name)
+    except BaseException as error:
+        return False
+    app.backup_file_path = os.path.join(
+        DeployList.BACKUP_DIR.format(app_name),
+        DeployList.BACKUP_FILE_DIR.format(APP_NAME=app_name, VERSION=version)
+    )
+    app.save()
+    return True
