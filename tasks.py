@@ -199,6 +199,7 @@ def rollback_check_backup_file_exist_util(asset, task_name, app_name, version):
     tasks = const.CHECK_FILE_TASK
     hosts = [asset.fullname]
     tasks[0]['action']['args'] = "if [ -f '{0}' ]; then echo 'exist'; else echo 'not'; fi".format(backup_path)
+    print(tasks)
     task, create = update_or_create_ansible_task(
         task_name=task_name,
         hosts=hosts, tasks=tasks,
