@@ -8,13 +8,15 @@ from django.core.cache import cache
 from django.conf import settings
 from django.utils.translation import ugettext as _
 # from assets.models import AdminUser, Asset
-from .models import get_deploy_file_path, get_remote_data_path, get_version, get_deploy_jar_path, get_last_version, save_backup_path
+from .models import get_deploy_file_path, get_remote_data_path, get_version, get_deploy_jar_path, get_last_version, \
+    save_backup_path, get_backup_path
 from . import const
 
 CREATE_PROJECT_SCRIPT_DIR = os.path.join(settings.BASE_DIR, 'deploy', 'script', 'create_project_dir.sh')
 CHOWN_SCRIPT_DIR = os.path.join(settings.BASE_DIR, 'deploy', 'script', 'chown.sh')
 COMPRESS_SCRIPT_DIR = os.path.join(settings.BASE_DIR, 'deploy', 'script', 'compress_tar.sh')
 BACKUP_SCRIPT_DIR = os.path.join(settings.BASE_DIR, 'deploy', 'script', 'backup.sh')
+UNPACK_SCRIPT_DIR = os.path.join(settings.BASE_DIR, 'deploy', 'script', 'unpack.sh')
 # just for test #
 @shared_task
 def test_ansible_ping(asset):
@@ -147,5 +149,33 @@ def rollback_asset_app_version_manual(asset, app_name, version):
 
 def rollback_asset_app_version_util(asset, task_name, app_name, version):
     from ops.utils import update_or_create_ansible_task
-
+    backup_path = get_backup_path(app_name, version)
+    tasks = const.ROLLBACK_TASK
+    tasks[0]['action']['args'] = "{0} {1}".format(UNPACK_SCRIPT_DIR, backup_path)
     return
+
+
+# rollback check backupfile exist
+def rollback_check_backup_file_exist(asset, app_name, version):
+    task_name = _("backup {0} on {1}".format(app_name, asset.hostname))
+    return rollback_check_backup_file_exist_util(asset, task_name, app_name, version)
+
+
+def rollback_check_backup_file_exist_util(asset, task_name, app_name, version):
+    from ops.utils import update_or_create_ansible_task
+    backup_path = get_backup_path(app_name, version)
+    tasks = const.CHECK_FILE_TASK
+    hosts = asset.fullname
+    tasks[0]['action']['args'] = "if [ -f '{0}' ]; then echo 'exist'; else echo 'not'; fi".format(backup_path)
+    task, create = update_or_create_ansible_task(
+        task_name=task_name,
+        hosts=hosts, tasks=tasks,
+        pattern='all',
+        options=const.TASK_OPTIONS, run_as_admin=True, created_by='System'
+    )
+
+    result = task.run()
+
+    print(result)
+
+    return result

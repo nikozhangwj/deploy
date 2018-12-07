@@ -9,7 +9,7 @@ from ..models import DeployList, DeployVersion, add_version_list, turn_build_fil
 from assets.models import AdminUser, Asset
 from django.http import JsonResponse, HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
-from ..tasks import rollback_asset_app_version_manual
+from ..tasks import rollback_asset_app_version_manual, rollback_check_backup_file_exist
 from ..util import pack_up_deploy_file
 
 
@@ -21,6 +21,8 @@ def rollback(request):
         return JsonResponse(dict(code=400, error=str(error)))
     version = request.GET.get('version')
     app_name = request.GET.get('app_name')
-    result = rollback_asset_app_version_manual(asset, app_name, version)
+    result = rollback_check_backup_file_exist(asset, app_name, version)
 
-    return JsonResponse(dict(code=200, msg='ROLLBACK'))
+    # result = rollback_asset_app_version_manual(asset, app_name, version)
+
+    return JsonResponse(dict(code=200, msg=str(result)))

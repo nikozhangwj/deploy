@@ -230,4 +230,5 @@ def get_backup_path(app_name, version):
         data = DeployVersion.objects.get(app_name=get_app_id(app_name), version=version)
     except ObjectDoesNotExist as error:
         return False
+
     return data.backup_file_path
