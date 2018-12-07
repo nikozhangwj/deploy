@@ -30,8 +30,6 @@ def rollback(request):
 
     result = rollback_asset_app_version_manual(asset, app_name, version)
 
-    print(result)
-
     if result[0]['failed']:
         return JsonResponse(dict(code=400, error=str(result[0]['failed'])))
 

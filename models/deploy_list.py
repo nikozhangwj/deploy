@@ -254,6 +254,7 @@ def change_version_active(app, version):
 
 
 def update_app(app, version):
+    print(version.version)
     app.deploy_file_path = os.path.join(DeployList.DEPLOY_FILE_DIR, app.app_name, 'app', version.version)
     return
 
