@@ -37,6 +37,7 @@ def deploy_file_to_asset(request):
 
     # backup old version on remote host and return result
     backup_result = backup_asset_app_file(asset, app_name)
+    print(backup_result)
     if not backup_result:
         return JsonResponse(dict(code=400, error='Backup Failed!'))
     # rename build file and return result
