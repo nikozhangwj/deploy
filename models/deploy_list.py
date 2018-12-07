@@ -21,6 +21,7 @@ class DeployList(models.Model):
     DEST_FILE_DIR = '/data/'
     BACKUP_DIR = '/deploy/{0}/bak/'
     BACKUP_FILE_DIR = '{APP_NAME}_backup_{VERSION}/{APP_NAME}_full_backup_{VERSION}.tar.gz'
+    BACKUP_DIRECTORY_DIR = '/deploy/{APP_NAME}/bak/{APP_NAME}_backup_{VERSION}/'
 
     STATUS_CHOICES = (
         (SUCCESS, SUCCESS),
@@ -238,3 +239,7 @@ def get_backup_path(app_name, version):
         return error
 
     return data.backup_file_path
+
+
+def get_backup_directory(app_name, version):
+    return DeployList.BACKUP_DIRECTORY_DIR.format(APP_NAME=app_name, VERSION=version)

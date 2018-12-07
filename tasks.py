@@ -9,7 +9,7 @@ from django.conf import settings
 from django.utils.translation import ugettext as _
 # from assets.models import AdminUser, Asset
 from .models import get_deploy_file_path, get_remote_data_path, get_version, get_deploy_jar_path, get_last_version, \
-    save_backup_path, get_backup_path, get_version_path
+    save_backup_path, get_backup_path, get_version_path, get_backup_directory
 from . import const
 
 CREATE_PROJECT_SCRIPT_DIR = os.path.join(settings.BASE_DIR, 'deploy', 'script', 'create_project_dir.sh')
@@ -149,12 +149,17 @@ def rollback_asset_app_version_manual(asset, app_name, version):
 
 def rollback_asset_app_version_util(asset, task_name, app_name, version):
     from ops.utils import update_or_create_ansible_task
-    backup_path = get_backup_path(app_name, version)
-    print(backup_path)
+
     hosts = [asset.fullname]
     tasks = const.ROLLBACK_TASK
     # unpack
-    tasks[0]['action']['args'] = "{0} {1}".format(UNPACK_SCRIPT_DIR, backup_path, app_name)
+    tasks[0]['action']['args'] = "{0} {1}".format(
+        UNPACK_SCRIPT_DIR,
+        get_backup_path(app_name, version),
+        get_backup_directory(app_name, version),
+        app_name
+    )
+
     # remove link
     tasks[1]['action']['args'] = "path={0} state=absent".format(get_remote_data_path(app_name))
     # create new link
