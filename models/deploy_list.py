@@ -6,7 +6,7 @@ import shutil
 from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from ..pjenkins.exec_jenkins import JenkinsWork
 from datetime import datetime
 
@@ -196,6 +196,24 @@ def add_version_list(app_name, version_status=True):
     except BaseException as error:
         print(error)
         pass
+
+    build_num = app.last_success_build_num
+    try:
+        version = DeployVersion.objects.get(app_name=app.id, last_success_build_num=build_num)
+        version.version_status = version_status
+        version.symbol = True
+        version.save()
+        return True
+    except ObjectDoesNotExist as error:
+        print(error)
+        pass
+    except MultipleObjectsReturned as error:
+        version = DeployVersion.objects.filter(app_name=app.id, last_success_build_num=build_num).last()
+        version.version_status = version_status
+        version.symbol = True
+        version.save()
+        print(error)
+        return True
 
     DeployVersion.objects.create(
         app_name=app,
