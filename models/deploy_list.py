@@ -253,4 +253,5 @@ def update_deploy_info(app_name, deploy_file_path):
         print(error)
         return False
     app.deploy_file_path = deploy_file_path
+    app.save()
     return add_version_list(app_name)
