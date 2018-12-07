@@ -28,10 +28,16 @@ class DeployList(models.Model):
         (RUNNING, RUNNING),
         (FAILED, FAILED),
     )
+    TRUE = True
+    FALSE = False
+    JOB_STATUS_CHOICES = (
+        (TRUE, True),
+        (FALSE, False),
+    )
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     app_name = models.CharField(max_length=1024)
-    job_status = models.BooleanField(default=True)
+    job_status = models.BooleanField(default=True, choices=JOB_STATUS_CHOICES)
     build_status = models.CharField(max_length=128, choices=STATUS_CHOICES)
     log_path = models.CharField(max_length=256, blank=True, null=True)
     create_time = models.DateTimeField(auto_now_add=True)
