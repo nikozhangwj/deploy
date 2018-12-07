@@ -164,7 +164,7 @@ def rollback_asset_app_version_util(asset, task_name, app_name, version):
     tasks[1]['action']['args'] = "path={0} state=absent".format(get_remote_data_path(app_name))
     # create new link
     tasks[2]['action']['args'] = "src={0} state=link path={1}".format(
-        get_version_path(app_name, version),
+        os.path.join(get_version_path(app_name, version), app_name+'.jar'),
         get_remote_data_path(app_name)
     )
 
