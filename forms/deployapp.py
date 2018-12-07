@@ -24,4 +24,6 @@ class AppUpdateForm(OrgModelForm):
             })
         }
         labels = {}
-        help_texts = {}
+        help_texts = {
+            'app_name': '* 千万不要随便修改',
+        }
