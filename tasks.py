@@ -9,7 +9,7 @@ from django.conf import settings
 from django.utils.translation import ugettext as _
 # from assets.models import AdminUser, Asset
 from .models import get_deploy_file_path, get_remote_data_path, get_version, get_deploy_jar_path, get_last_version, \
-    save_backup_path, get_backup_path, get_version_path, get_backup_directory, change_version_active
+    save_backup_path, get_backup_path, get_version_path, get_backup_directory, update_deploy_info
 from . import const
 
 CREATE_PROJECT_SCRIPT_DIR = os.path.join(settings.BASE_DIR, 'deploy', 'script', 'create_project_dir.sh')
@@ -180,7 +180,7 @@ def rollback_asset_app_version_util(asset, task_name, app_name, version):
     result = task.run()
 
     if result[0]['ok']:
-        change_version_active(app_name, version)
+        update_deploy_info(app_name, version)
 
     return result
 
