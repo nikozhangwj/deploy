@@ -150,6 +150,7 @@ def rollback_asset_app_version_manual(asset, app_name, version):
 def rollback_asset_app_version_util(asset, task_name, app_name, version):
     from ops.utils import update_or_create_ansible_task
     backup_path = get_backup_path(app_name, version)
+    hosts = [asset.fullname]
     tasks = const.ROLLBACK_TASK
     tasks[0]['action']['args'] = "{0} {1}".format(UNPACK_SCRIPT_DIR, backup_path)
     return
@@ -165,7 +166,7 @@ def rollback_check_backup_file_exist_util(asset, task_name, app_name, version):
     from ops.utils import update_or_create_ansible_task
     backup_path = get_backup_path(app_name, version)
     tasks = const.CHECK_FILE_TASK
-    hosts = asset.fullname
+    hosts = [asset.fullname]
     tasks[0]['action']['args'] = "if [ -f '{0}' ]; then echo 'exist'; else echo 'not'; fi".format(backup_path)
     task, create = update_or_create_ansible_task(
         task_name=task_name,
