@@ -21,9 +21,12 @@ def rollback(request):
         return JsonResponse(dict(code=400, error=str(error)))
     version = request.GET.get('version')
     app_name = request.GET.get('app_name')
-    result = rollback_check_backup_file_exist(asset, app_name, version)
-    if result == 'not':
-        return JsonResponse(dict(code=400, error=str(result)))
+
+    simple_result = rollback_check_backup_file_exist(asset, app_name, version)
+    if simple_result == 'not':
+        return JsonResponse(dict(code=400, error=str(simple_result)))
+    if not simple_result:
+        return JsonResponse(dict(code=400, error='known error'))
     # result = rollback_asset_app_version_manual(asset, app_name, version)
 
-    return JsonResponse(dict(code=200, msg=str(result)))
+    return JsonResponse(dict(code=200, msg=str(simple_result)))

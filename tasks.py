@@ -184,6 +184,5 @@ def rollback_check_backup_file_exist_util(asset, task_name, app_name, version):
         return False
     if result[0]['ok']:
         simple_result = result[0]['ok'][asset.fullname]['CHECK_FILE_EXIST']['stdout']
-        print(simple_result)
 
     return simple_result
