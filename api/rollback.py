@@ -24,7 +24,7 @@ def rollback(request):
 
     simple_result = rollback_check_backup_file_exist(asset, app_name, version)
     if simple_result == 'not':
-        return JsonResponse(dict(code=400, error=str(simple_result)))
+        return JsonResponse(dict(code=400, error='备份文件'+version+'不存在'))
     if not simple_result:
         return JsonResponse(dict(code=400, error='known error'))
     # result = rollback_asset_app_version_manual(asset, app_name, version)
