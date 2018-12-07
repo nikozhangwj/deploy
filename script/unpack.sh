@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 backup_path=$1
 app_name=$2

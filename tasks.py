@@ -150,6 +150,7 @@ def rollback_asset_app_version_manual(asset, app_name, version):
 def rollback_asset_app_version_util(asset, task_name, app_name, version):
     from ops.utils import update_or_create_ansible_task
     backup_path = get_backup_path(app_name, version)
+    print(backup_path)
     hosts = [asset.fullname]
     tasks = const.ROLLBACK_TASK
     # unpack
