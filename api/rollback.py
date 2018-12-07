@@ -32,4 +32,7 @@ def rollback(request):
 
     print(result)
 
+    if result[0]['failed']:
+        return JsonResponse(dict(code=400, error=str(result[0]['failed'])))
+
     return JsonResponse(dict(code=200, msg=str(result)))

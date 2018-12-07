@@ -243,3 +243,21 @@ def get_backup_path(app_name, version):
 
 def get_backup_directory(app_name, version):
     return DeployList.BACKUP_DIRECTORY_DIR.format(APP_NAME=app_name, VERSION=version)
+
+
+def change_version_active(app_name, version):
+    try:
+        app = DeployList.objects.get(app_name=app_name)
+    except ObjectDoesNotExist as error:
+        print(error)
+        return False
+    dl = DeployVersion.objects.filter(app_name=app.id)
+    dl.update(symbol=False)
+    try:
+        d_version = DeployVersion.objects.get(app_name=app.id, version=version)
+    except ObjectDoesNotExist as error:
+        print(error)
+        return False
+    d_version.symbol = True
+    d_version.save()
+    return True
