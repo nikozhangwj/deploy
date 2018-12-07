@@ -153,7 +153,7 @@ def rollback_asset_app_version_util(asset, task_name, app_name, version):
     hosts = [asset.fullname]
     tasks = const.ROLLBACK_TASK
     # unpack
-    tasks[0]['action']['args'] = "{0} {1} {2}".format(
+    tasks[0]['action']['args'] = "{0} {1} {2} {3}".format(
         UNPACK_SCRIPT_DIR,
         get_backup_path(app_name, version),
         get_backup_directory(app_name, version),
