@@ -19,7 +19,7 @@
     <tbody>
       {% for deploy in deploys %}
         <tr>
-            <td>{{deploy.app_name}}</td>
+            <td><a href="{% url 'deploy:deploy-update' pk=deploy.id %}">{{deploy.app_name}}</a></td>
             <td>{{deploy.job_status}}</td>
             <td>{{deploy.get_build_status_display}}</td>
             <td>{{deploy.last_build_time}}</td>
