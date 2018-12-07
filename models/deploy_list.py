@@ -87,6 +87,12 @@ def get_version(app_name):
     return deploy_file_path.split('/')[-1]
 
 
+def get_version_path(app_name, version):
+    app = DeployList.objects.get(app_name=app_name)
+    v = DeployVersion.objects.get(app_name=app.id, version=version)
+    return v.version_path
+
+
 def get_last_version(app_name):
     app = DeployList.objects.get(app_name=app_name)
     version_path = DeployVersion.objects.filter(app_name_id=app.id, symbol=True)

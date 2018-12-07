@@ -10,7 +10,6 @@ from assets.models import AdminUser, Asset
 from django.http import JsonResponse, HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from ..tasks import rollback_asset_app_version_manual, rollback_check_backup_file_exist
-from ..util import pack_up_deploy_file
 
 
 def rollback(request):
@@ -22,11 +21,15 @@ def rollback(request):
     version = request.GET.get('version')
     app_name = request.GET.get('app_name')
 
-    simple_result = rollback_check_backup_file_exist(asset, app_name, version)
-    if simple_result == 'not':
+    # check target version backup file exist
+    exist_result = rollback_check_backup_file_exist(asset, app_name, version)
+    if exist_result == 'not':
         return JsonResponse(dict(code=400, error='备份文件'+version+'不存在'))
-    if not simple_result:
-        return JsonResponse(dict(code=400, error='known error'))
-    # result = rollback_asset_app_version_manual(asset, app_name, version)
+    if not exist_result:
+        return JsonResponse(dict(code=400, error='unknown error'))
 
-    return JsonResponse(dict(code=200, msg=str(simple_result)))
+    result = rollback_asset_app_version_manual(asset, app_name, version)
+
+    print(result)
+
+    return JsonResponse(dict(code=200, msg=str(result)))
