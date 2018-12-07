@@ -160,10 +160,26 @@ def is_same_build(app_name):
         return False
 
 
+def check_version_unique(app_name):
+    app = DeployList.objects.get(app_name=app_name)
+    try:
+        DeployVersion.objects.get(app_name=app.id, last_success_build_num=app.last_success_build_num)
+        return True
+    except ObjectDoesNotExist as error:
+        print(error)
+        return False
+    except MultipleObjectsReturned as error:
+        print(error)
+        return False
+
+
 def turn_build_file_to_deploy(app_name):
     app = DeployList.objects.get(app_name=app_name)
 
     if is_same_build(app_name):
+        return True
+
+    if check_version_unique(app_name):
         return True
 
     src_file = app.build_file_path
