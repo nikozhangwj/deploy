@@ -165,6 +165,9 @@ def rollback_check_backup_file_exist(asset, app_name, version):
 def rollback_check_backup_file_exist_util(asset, task_name, app_name, version):
     from ops.utils import update_or_create_ansible_task
     backup_path = get_backup_path(app_name, version)
+    print(backup_path)
+    if not backup_path:
+        return False
     tasks = const.CHECK_FILE_TASK
     hosts = [asset.fullname]
     tasks[0]['action']['args'] = "if [ -f '{0}' ]; then echo 'exist'; else echo 'not'; fi".format(backup_path)
