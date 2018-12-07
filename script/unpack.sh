@@ -5,7 +5,6 @@ backup_directory=$2
 app_name=$3
 
 cd ${backup_directory}
-cd ..
 pwd
 
 tar -xvzf ${backup_path}
