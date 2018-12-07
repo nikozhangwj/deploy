@@ -179,7 +179,10 @@ def rollback_check_backup_file_exist_util(asset, task_name, app_name, version):
     )
 
     result = task.run()
+    if result[1]['dark']:
+        return False
+    if result[0]['ok']:
+        simple_result = result[0]['ok'][asset.fullname]['CHECK_FILE_TASK']['stdout']
+        print(simple_result)
 
-    print(result)
-
-    return result
+    return simple_result

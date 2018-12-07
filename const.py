@@ -42,7 +42,7 @@ ROLLBACK_TASK = [
 
 CHECK_FILE_TASK = [
     {
-        "name": "CHECK FILE EXIST",
+        "name": "CHECK_FILE_EXIST",
         "action": {
             "module": "shell",
             "args": ""
