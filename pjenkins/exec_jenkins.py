@@ -52,6 +52,5 @@ class JenkinsWork(object):
         }
 
     def build_job(self, name):
-        print(name)
         self.server.build_job(name=name)
         return dict(code=200)

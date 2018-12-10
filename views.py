@@ -34,6 +34,7 @@ def build_app(request):
     except BaseException as error:
         logger.error(error)
         return JsonResponse(dict(code=400, error='error'))
+    logger.info('发送构建{0}请求到Jenkins'.format(job.app_name))
     JenkinsWork().build_job(job.app_name)
     return JsonResponse(dict(code=200, mgs='success'))
 
