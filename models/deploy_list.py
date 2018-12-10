@@ -158,7 +158,9 @@ def create_or_update(queryset):
 def is_same_build(app_name):
     app = DeployList.objects.get(app_name=app_name)
     version = DeployVersion.objects.filter(app_name=app.id, symbol=True).order_by('-create_time')[:1]
-    if version[0].last_success_build_num == app.last_success_build_num:
+    if not version:
+        return False
+    elif version[0].last_success_build_num == app.last_success_build_num:
         return True
     elif version[0].last_success_build_num != app.last_success_build_num:
         return False
