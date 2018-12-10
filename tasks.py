@@ -69,6 +69,7 @@ def check_asset_file_exist_util(asset, app_name, task_name):
     )
 
     result = task.run()
+    logger.info(result)
 
     return result
 
@@ -108,6 +109,7 @@ def push_build_file_to_asset_util(asset, task_name, app_name):
     )
 
     result = task.run()
+    logger.info(result+app_name)
 
     return result
 
@@ -124,8 +126,7 @@ def backup_asset_app_file_util(asset, task_name, app_name):
     from ops.utils import update_or_create_ansible_task
     version = get_last_version(app_name)
     if not version:
-        print('no version')
-        logger.error("no version history found {0}".format(app_name))
+        logger.info("no version history found {0}".format(app_name))
         return False
     hosts = [asset.fullname]
     tasks = const.BACKUP_FILE
@@ -140,11 +141,12 @@ def backup_asset_app_file_util(asset, task_name, app_name):
     result = task.run()
 
     if result[1]['dark']:
-        print('Backup Failed!')
+        logger.info('{0} Backup Failed!'.format(app_name)+result[1]['dark'])
         return result[1]['dark']
 
     if not save_backup_path(app_name, version):
         return False
+    logger.info(result)
 
     return result
 
@@ -176,8 +178,6 @@ def rollback_asset_app_version_util(asset, task_name, app_name, version):
         get_remote_data_path(app_name)
     )
 
-    print(tasks)
-
     task, create = update_or_create_ansible_task(
         task_name=task_name,
         hosts=hosts, tasks=tasks,
@@ -190,6 +190,7 @@ def rollback_asset_app_version_util(asset, task_name, app_name, version):
     if result[0]['ok']:
         update_deploy_info(app_name, deploy_file_path)
 
+    logger.info(result[0]['ok'])
     return result
 
 
@@ -201,6 +202,7 @@ def rollback_check_backup_file_exist(asset, app_name, version):
 
 def rollback_check_backup_file_exist_util(asset, task_name, app_name, version):
     from ops.utils import update_or_create_ansible_task
+    simple_result = None
     backup_path = get_backup_path(app_name, version)
     if not backup_path:
         return False
@@ -218,8 +220,11 @@ def rollback_check_backup_file_exist_util(asset, task_name, app_name, version):
     result = task.run()
 
     if result[1]['dark']:
+        logger.error(result[1]['dark'])
         return False
     if result[0]['ok']:
         simple_result = result[0]['ok'][asset.fullname]['CHECK_FILE_EXIST']['stdout']
+
+    logger.info(simple_result)
 
     return simple_result

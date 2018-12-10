@@ -8,7 +8,11 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from ..pjenkins.exec_jenkins import JenkinsWork
+from common.utils import get_logger
 from datetime import datetime
+
+
+logger = get_logger('jumpserver')
 
 
 class DeployList(models.Model):
@@ -174,10 +178,10 @@ def check_version_unique(app_name):
         version = DeployVersion.objects.get(app_name=app.id, last_success_build_num=app.last_success_build_num)
         return version.version_path
     except ObjectDoesNotExist as error:
-        print(error)
+        logger.error(error)
         return False
     except MultipleObjectsReturned as error:
-        print(error)
+        logger.error(error)
         return False
 
 
@@ -221,7 +225,7 @@ def add_version_list(app_name, version_status=True):
         version.save()
         return True
     except BaseException as error:
-        print(error)
+        logger.error(error)
         pass
 
     build_num = app.last_success_build_num
@@ -232,14 +236,14 @@ def add_version_list(app_name, version_status=True):
         version.save()
         return True
     except ObjectDoesNotExist as error:
-        print(error)
+        logger.error(error)
         pass
     except MultipleObjectsReturned as error:
         version = DeployVersion.objects.filter(app_name=app.id, last_success_build_num=build_num).last()
         version.version_status = version_status
         version.symbol = True
         version.save()
-        print(error)
+        logger.error(error)
         return True
 
     DeployVersion.objects.create(
@@ -261,6 +265,7 @@ def save_backup_path(app_name, version):
     try:
         app = DeployList.objects.get(app_name=app_name)
     except BaseException as error:
+        logger.error(error)
         return False
     app.backup_file_path = os.path.join(
         DeployList.BACKUP_DIR.format(app_name),
@@ -295,7 +300,7 @@ def update_deploy_info(app_name, deploy_file_path):
     try:
         app = DeployList.objects.get(app_name=app_name)
     except ObjectDoesNotExist as error:
-        print(error)
+        logger.error(error)
         return False
     app.deploy_file_path = deploy_file_path
     app.save()
