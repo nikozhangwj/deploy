@@ -13,6 +13,7 @@ from .forms.deployapp import AppUpdateForm
 
 logger = get_logger('jumpserver')
 
+
 class DeployIndex(LoginRequiredMixin, ListView):
     model = DeployList
     template_name = 'deploy/deploy_list.html'
@@ -21,6 +22,7 @@ class DeployIndex(LoginRequiredMixin, ListView):
 
 def get_jenkins_all(request):
     jobs = JenkinsWork().collect_all_job()
+    logger.info('开始获取Jenkins数据')
     create_or_update(jobs)
     return JsonResponse(dict(code=200))
 

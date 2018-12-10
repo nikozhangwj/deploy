@@ -57,10 +57,10 @@ def deploy_file_to_asset(request):
     # check remote host is already have target APP
     check_result = check_asset_file_exist(asset, app_name)
     if check_result[0]['ok']:
-        logger.info('全量打包')
+        logger.info('增量打包')
         pack_result = pack_up_deploy_file(app_name)
     else:
-        logger.info('增量打包')
+        logger.info('全量打包')
         pack_result = pack_up_deploy_file(app_name, only_jar=False)
 
     if not pack_result:
