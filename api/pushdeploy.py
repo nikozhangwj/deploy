@@ -7,10 +7,18 @@ from django.utils import timezone
 from django.core import serializers
 from ..models import DeployList, DeployVersion, add_version_list, turn_build_file_to_deploy
 from assets.models import AdminUser, Asset
+from common.utils import get_logger
 from django.http import JsonResponse, HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from ..tasks import test_ansible_ping, push_build_file_to_asset_manual, check_asset_file_exist, backup_asset_app_file
 from ..util import pack_up_deploy_file
+
+
+logger = get_logger('jumpserver')
+__all__ = [
+    'deploy_file_to_asset',
+    'get_version_history'
+]
 
 
 # just for test
@@ -38,7 +46,9 @@ def deploy_file_to_asset(request):
     # backup old version on remote host and return result
     backup_result = backup_asset_app_file(asset, app_name)
     if not backup_result:
-        return JsonResponse(dict(code=400, error='Backup Failed!'))
+        print(backup_result)
+        pass
+
     # rename build file and return result
     if not turn_build_file_to_deploy(app_name):
         return JsonResponse(dict(code=400, error='file not found!'))

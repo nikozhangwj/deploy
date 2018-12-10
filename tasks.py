@@ -7,6 +7,7 @@ from celery import shared_task
 from django.core.cache import cache
 from django.conf import settings
 from django.utils.translation import ugettext as _
+from common.utils import get_logger
 # from assets.models import AdminUser, Asset
 from .models import get_deploy_file_path, get_remote_data_path, get_version, get_deploy_jar_path, get_last_version, \
     save_backup_path, get_backup_path, get_version_path, get_backup_directory, update_deploy_info
@@ -17,6 +18,11 @@ CHOWN_SCRIPT_DIR = os.path.join(settings.BASE_DIR, 'deploy', 'script', 'chown.sh
 COMPRESS_SCRIPT_DIR = os.path.join(settings.BASE_DIR, 'deploy', 'script', 'compress_tar.sh')
 BACKUP_SCRIPT_DIR = os.path.join(settings.BASE_DIR, 'deploy', 'script', 'backup.sh')
 UNPACK_SCRIPT_DIR = os.path.join(settings.BASE_DIR, 'deploy', 'script', 'unpack.sh')
+
+
+logger = get_logger('jumpserver')
+
+
 # just for test #
 @shared_task
 def test_ansible_ping(asset):
@@ -116,9 +122,10 @@ def backup_asset_app_file(asset, app_name):
 @shared_task
 def backup_asset_app_file_util(asset, task_name, app_name):
     from ops.utils import update_or_create_ansible_task
-    if get_last_version(app_name):
-        version = get_last_version(app_name)
-    else:
+    version = get_last_version(app_name)
+    if not version:
+        print('no version')
+        logger.error("no version history found {0}".format(app_name))
         return False
     hosts = [asset.fullname]
     tasks = const.BACKUP_FILE
