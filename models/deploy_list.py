@@ -136,6 +136,7 @@ def create_or_update(queryset):
                     job['name']+str(last_success_build_num)
                 )
             )
+            logger.info("APP {0} has update from jenkins.".format(job['name']))
         else:
             data = JenkinsWork().collect_job(name=job['name'])
             if data.get('last_success_build_num', None) is None:
@@ -157,6 +158,7 @@ def create_or_update(queryset):
                     job['name']+str(last_success_build_num)
                 )
             )
+            logger.info("APP {0} has create from jenkins and its home directory is make.".format(job['name']))
 
 
 def is_same_build(app_name):

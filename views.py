@@ -5,11 +5,13 @@ from django.views.generic import ListView, DetailView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
+from common.utils import get_logger
 from .pjenkins.exec_jenkins import JenkinsWork
 from .models.deploy_list import DeployList, create_or_update, DeployVersion
 from .forms.deployapp import AppUpdateForm
 # Create your views here.
 
+logger = get_logger('jumpserver')
 
 class DeployIndex(LoginRequiredMixin, ListView):
     model = DeployList
@@ -28,6 +30,7 @@ def build_app(request):
     try:
         job = DeployList.objects.get(id=job_id)
     except BaseException as error:
+        logger.error(error)
         return JsonResponse(dict(code=400, error='error'))
     JenkinsWork().build_job(job.app_name)
     return JsonResponse(dict(code=200, mgs='success'))
