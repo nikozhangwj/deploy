@@ -143,14 +143,7 @@ def create_or_update(queryset):
                 last_success_build_num = 0
             else:
                 last_success_build_num = data.get('last_success_build_num')
-            '''
-            remove mkdir because jenkins is already do this job.
-            
-            try:
-                os.makedirs(os.path.join(DeployList.DEPLOY_FILE_DIR, job['name'], 'app'), mode=0o755)
-            except FileExistsError as error:
-                print(error)
-            '''
+            os.makedirs(os.path.join(DeployList.DEPLOY_FILE_DIR, job['name'], 'app'), mode=0o755)
             DeployList.objects.create(
                 app_name=data['app_name'],
                 build_status=data.get('build_status', 'RUNNING'),
