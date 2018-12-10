@@ -5,6 +5,7 @@ import os
 
 from celery import shared_task
 from django.core.cache import cache
+from django.utils import timezone
 from django.conf import settings
 from django.utils.translation import ugettext as _
 from common.utils import get_logger
@@ -50,7 +51,7 @@ def test_ansible_ping_util(asset, task_name):
 # deploy check file exist #
 @shared_task
 def check_asset_file_exist(asset, app_name):
-    task_name = _("check {0} {1} exist".format(asset, app_name))
+    task_name = _("check {0} {1} exist {2}".format(asset, app_name, timezone.localtime().strftime("[%Y-%m-%d %H:%M:%S]")))
     return check_asset_file_exist_util(asset, app_name, task_name)
 
 
@@ -76,7 +77,7 @@ def check_asset_file_exist_util(asset, app_name, task_name):
 # deploy function #
 @shared_task
 def push_build_file_to_asset_manual(asset, app_name):
-    task_name = _("push {0} build file to {1}".format(app_name, asset.hostname))
+    task_name = _("push {0} build file to {1} {2}".format(app_name, asset.hostname, timezone.localtime().strftime("[%Y-%m-%d %H:%M:%S]")))
     return push_build_file_to_asset_util(asset, task_name, app_name)
 
 
@@ -115,7 +116,7 @@ def push_build_file_to_asset_util(asset, task_name, app_name):
 # backup function #
 @shared_task
 def backup_asset_app_file(asset, app_name):
-    task_name = _("backup {0} on {1}".format(app_name, asset.hostname))
+    task_name = _("backup {0} on {1} {2}".format(app_name, asset.hostname, timezone.localtime().strftime("[%Y-%m-%d %H:%M:%S]")))
     return backup_asset_app_file_util(asset, task_name, app_name)
 
 
@@ -151,7 +152,7 @@ def backup_asset_app_file_util(asset, task_name, app_name):
 
 # rollback version
 def rollback_asset_app_version_manual(asset, app_name, version):
-    task_name = _("backup {0} on {1}".format(app_name, asset.hostname))
+    task_name = _("backup {0} on {1} {2}".format(app_name, asset.hostname, timezone.localtime().strftime("[%Y-%m-%d %H:%M:%S]")))
     return rollback_asset_app_version_util(asset, task_name, app_name, version)
 
 
@@ -194,7 +195,7 @@ def rollback_asset_app_version_util(asset, task_name, app_name, version):
 
 # rollback check backupfile exist
 def rollback_check_backup_file_exist(asset, app_name, version):
-    task_name = _("backup {0} on {1}".format(app_name, asset.hostname))
+    task_name = _("backup {0} on {1} {2}".format(app_name, asset.hostname, timezone.localtime().strftime("[%Y-%m-%d %H:%M:%S]")))
     return rollback_check_backup_file_exist_util(asset, task_name, app_name, version)
 
 
