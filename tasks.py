@@ -188,7 +188,7 @@ def rollback_asset_app_version_util(asset, task_name, app_name, version):
     if result[0]['ok']:
         update_deploy_info(app_name, deploy_file_path)
 
-    logger.info(result[0]['ok'])
+    # logger.info(result[0]['ok'])
     return result
 
 
