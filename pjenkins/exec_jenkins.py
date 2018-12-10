@@ -1,14 +1,15 @@
 import jenkins
 from django.utils.timezone import datetime
+from django.conf import settings
 
 
 class JenkinsWork(object):
 
     def __init__(self):
-        self.username = 'admin'
-        self.password = 'admin'
+        self.username = settings.JENKINS_USER_NAME
+        self.password = settings.JENKINS_USER_PASSWORD
         self.server = jenkins.Jenkins(
-            'http://192.168.0.124:8081/login?from=%2F', username=self.username, password=self.password
+            settings.JENKINS_URL, username=self.username, password=self.password
         )
 
     def collect_all_job(self):
@@ -51,6 +52,5 @@ class JenkinsWork(object):
         }
 
     def build_job(self, name):
-        print(name)
         self.server.build_job(name=name)
         return dict(code=200)

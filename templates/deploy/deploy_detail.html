@@ -18,7 +18,7 @@
                                 <a href="#" class="text-center"><i class="fa fa-laptop"></i> {% trans 'Detail' %} </a>
                             </li>
                             <li class="pull-right">
-                                <a class="btn btn-outline btn-default" href="#"><i class="fa fa-edit"></i>{% trans 'Update' %}</a>
+                                <a class="btn btn-outline btn-default btn-update" href="{% url 'deploy:deploy-update' pk=result.id %}"><i class="fa fa-edit"></i>{% trans 'Update' %}</a>
                             </li>
                             <li class="pull-right">
                                 <a class="btn btn-outline btn-danger btn-delete-admin-user">
@@ -102,14 +102,19 @@
                                         <form class="deploy-form">
                                             <tr>
                                                 <td colspan="2" class="no-borders">
-                                                    <label>请输入需要升级的设备IP:</label>
-                                                    <input type="text-center" name="task_host"/>
+                                                    <label>请选择需要升级的服务器:</label>
+                                                    <select name="task_host">
+                                                        {% for asset in result.bound_asset.all %}
+                                                        <option value="{{asset.id}}">{{asset.hostname}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    <!--<input type="text-center" name="task_host"/>-->
                                                     <input type="hidden" name="app_name" value="{{ result.app_name }}" />
                                                 </td> 
                                             </tr>
                                             <tr>
                                                 <td colspan="2" class="no-borders">
-                                                    <button type="button" class="btn btn-primary btn-sm btn-deploy" id="">{% trans 'Confirm' %}</button>
+                                                    <button type="button" class="btn btn-primary btn-sm btn-deploy-per" id="">{% trans 'Confirm' %}</button>
                                                 </td>
                                             </tr>
                                         </form>
@@ -144,8 +149,48 @@
 <script>
     jQuery(document).ready(function(){
 
+        $('body').on('click', '.btn-deploy-per', function(){
+            swal({
+                title: "{% trans 'Are you sure?' %}",
+                text: "请确保升级前的准备工作已经完成",
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonText: "{% trans 'Cancel' %}",
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "{% trans 'Confirm' %}",
+                closeOnConfirm: false
+                 }, function(){
+                    var data = $('.deploy-form').serializeArray();
+                    console.log(data)
+                    $.get("{% url 'api-deploy:deploy_file_to_asset' %}", data, function(result){
+                        if(result.code==200) {
+                            console.log(result.task)
+                            swal({
+                                title: "",
+                                text: "升级完成,请验证。",
+                                type: "success",
+                                confirmButtonText: '确认',
+                                confirmButtonColor: '#4cd964',
+                            },function(){window.location.reload()})
+                        }
+                        else if(result.code==400) {
+                            console.log(result.error)
+                            swal({
+                                title: "",
+                                text: "升级失败！请手工修复！",
+                                type: "error",
+                                confirmButtonText: '确认',
+                                confirmButtonColor: '#4cd964',
+                            },function(){window.location.reload()})
+                        }
+                    });
+            });
+        });
+
+
         $('body').on('click', '.btn-deploy', function(){
             var data = $('.deploy-form').serializeArray();
+            console.log(data)
             $.get("{% url 'api-deploy:deploy_file_to_asset' %}", data, function(result){
                 if(result.code==200) {
                     console.log(result.task)
@@ -170,11 +215,11 @@
                 let symbol = history.symbol
                 if(symbol == true)
                 {
-                    var html = "<li class='list-group-item'><b>" + version + " 当前版本"+history.version_status+"</b></li>"
+                    var html = "<li class='list-group-item'><b>" + version.split("/")[4] + history.version_status + " 当前版本" + "</b></li>"
                 }
                 else
                 {
-                    var html = "<li class='list-group-item'><b>" + version + "\n" +history.version_status + "</b></li>"
+                    var html = "<li class='list-group-item'><b>" + version.split("/")[4] + "\n" +history.version_status + "</b></li>"
                 }
                 
                 $('#deploy-version').append(html);

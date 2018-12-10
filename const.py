@@ -15,15 +15,52 @@ TEST_CONN_TASKS = [
     }
 ]
 
+ROLLBACK_TASK = [
+    {
+        "name": "shell script compress backup.",
+        "action": {
+            "module": "script",
+            "args": "",
+        }
+    },
+    {
+        "name": "remove link",
+        "action": {
+            "module": "file",
+            "args": "",
+        }
+    },
+    {
+        "name": "create old_version link",
+        "action": {
+            "module": "file",
+            "args": "",
+        }
+    }
+
+]
+
 CHECK_FILE_TASK = [
     {
-        "name": "CHECK FILE EXIST",
+        "name": "CHECK_FILE_EXIST",
         "action": {
             "module": "shell",
             "args": ""
         }
     }
 ]
+
+
+BACKUP_FILE = [
+    {
+        "name": "backup asset app file",
+        "action": {
+            "module": "script",
+            "args": ""
+        }
+    }
+]
+
 
 COPY_FILE_TO_TASK = [
     {
