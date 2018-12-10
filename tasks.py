@@ -57,7 +57,7 @@ def check_asset_file_exist(asset, app_name):
 @shared_task
 def check_asset_file_exist_util(asset, app_name, task_name):
     from ops.utils import update_or_create_ansible_task
-
+    logger.info('检查{0}是否已存在{1}应用文件'.format(asset.hostname, app_name))
     hosts = [asset.fullname]
     tasks = const.CHECK_FILE_TASK
     tasks[0]['action']['args'] = "ls -la /data/{}".format(app_name)
@@ -69,7 +69,6 @@ def check_asset_file_exist_util(asset, app_name, task_name):
     )
 
     result = task.run()
-    logger.info(result)
 
     return result
 
@@ -109,7 +108,6 @@ def push_build_file_to_asset_util(asset, task_name, app_name):
     )
 
     result = task.run()
-    logger.info(result+app_name)
 
     return result
 
@@ -141,12 +139,12 @@ def backup_asset_app_file_util(asset, task_name, app_name):
     result = task.run()
 
     if result[1]['dark']:
-        logger.info('{0} Backup Failed!'.format(app_name)+result[1]['dark'])
+        logger.info('{0} Backup Failed! {1}'.format(app_name, result[1]['dark']))
         return result[1]['dark']
 
     if not save_backup_path(app_name, version):
         return False
-    logger.info(result)
+    logger.info('{0} backup complete.'.format(version))
 
     return result
 

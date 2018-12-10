@@ -51,17 +51,21 @@ def deploy_file_to_asset(request):
 
     # rename build file and return result
     if not turn_build_file_to_deploy(app_name):
+        logger.error('找不到{0}构建文件'.format(app_name))
         return JsonResponse(dict(code=400, error='file not found!'))
 
     # check remote host is already have target APP
     check_result = check_asset_file_exist(asset, app_name)
     if check_result[0]['ok']:
+        logger.info('全量打包')
         pack_result = pack_up_deploy_file(app_name)
     else:
+        logger.info('增量打包')
         pack_result = pack_up_deploy_file(app_name, only_jar=False)
 
     if not pack_result:
         add_version_list(app_name, version_status=False)
+        logger.error('文件打包失败')
         return JsonResponse(dict(code=400, error='文件打包失败'))
 
     # use ansible to push APP to remote host
@@ -71,14 +75,17 @@ def deploy_file_to_asset(request):
         job.published_status = False
         job.save()
         add_version_list(app_name, version_status=False)
+        logger.error('发布失败，请查看错误信息 {0}'.format(task[1]['dark']))
         return JsonResponse(dict(code=400, error=task[1]['dark']))
     elif task[0]['ok']:
         job.published_time = timezone.now()
         job.published_status = True
         job.save()
         add_version_list(app_name)
+        logger.info('应用{0}成功发布到{1}'.format(app_name, asset.hostname))
         return JsonResponse(dict(code=200, task=task))
     else:
+        logger.error("升级失败 {0}".format(task))
         return JsonResponse(dict(code=400, error="升级失败,请回滚"))
 
 

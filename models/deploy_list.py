@@ -188,15 +188,18 @@ def check_version_unique(app_name):
 
 
 def turn_build_file_to_deploy(app_name):
+    logger.info('开始转化{0}构建文件成发布文件'.format(app_name))
     app = DeployList.objects.get(app_name=app_name)
 
     if is_same_build(app_name):
+        logger.info('相同构建版本无需转换')
         return True
 
     version = check_version_unique(app_name)
     if version:
         app.deploy_file_path = version
         app.save()
+        logger.info('相同构建版本无需转换')
         return True
 
     src_file = app.build_file_path
@@ -210,6 +213,7 @@ def turn_build_file_to_deploy(app_name):
         shutil.copytree(src_file, dep_file)
         app.deploy_file_path = dep_file
         app.save()
+        logger.info('{0}发布文件转换成功{1}'.format(app_name, dep_file))
         return True
     else:
         return False
